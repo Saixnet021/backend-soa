@@ -6,23 +6,23 @@
 
 ---
 
-## 📊 Estructura de Controladores y Cobertura CRUD
+## Estructura de Controladores y Cobertura CRUD
 
 > [!NOTE]
 > Dependiendo del dominio y las reglas de negocio de la arquitectura SOA, algunos módulos disponen de un ciclo CRUD completo, mientras que otros exponen endpoints puramente transaccionales.
 
 | Módulo / Controlador | Cobertura CRUD | Métodos Soportados | Propósito Principal |
 |---|---|---|---|
-| **Especies** (`EspecieController`) | 🟢 **CRUD Completo** | `GET`, `POST`, `PUT`, `DELETE` | Configuración maestra de especies y umbrales térmicos. |
-| **Lotes CHD** (`LotePescaController`) | 🟡 **CRUD Parcial** | `GET`, `POST`, `PUT` | Integración del sistema SIP legacy y control de estados. |
-| **Auditorías** (`AuditoriaCalidadController`) | 🔵 **Registro e Historial** | `GET`, `POST` | Control de calidad térmica e inspección (QualityTrac). |
-| **Orquestación** (`TramiteSanipesController`) | 🟣 **Flujo SOA ESB** | `GET`, `POST` | Simulación del ESB WSO2 para validación y emisión de certificados. |
+| **Especies** (`EspecieController`) | **CRUD Completo** | `GET`, `POST`, `PUT`, `DELETE` | Configuración maestra de especies y umbrales térmicos. |
+| **Lotes CHD** (`LotePescaController`) | **CRUD Parcial** | `GET`, `POST`, `PUT` | Integración del sistema SIP legacy y control de estados. |
+| **Auditorías** (`AuditoriaCalidadController`) | **Registro e Historial** | `GET`, `POST` | Control de calidad térmica e inspección (QualityTrac). |
+| **Orquestación** (`TramiteSanipesController`) | **Flujo SOA ESB** | `GET`, `POST` | Simulación del ESB WSO2 para validación y emisión de certificados. |
 
 ---
 
-## 🔑 Autenticación
+## Autenticación
 
-### 🔵 `POST` http://localhost:8080/api/v1/auth/login
+### `POST` http://localhost:8080/api/v1/auth/login
 Obtiene token JWT para autenticarse en el resto de endpoints.
 
 > [!TIP]
@@ -47,15 +47,15 @@ Obtiene token JWT para autenticarse en el resto de endpoints.
 **Usuarios preestablecidos en el sistema:**
 | Usuario | Contraseña | Rol / Permiso |
 |---|---|---|
-| 🟢 `admin` | `admin123` | `ROLE_ADMIN` |
-| 🔵 `logistica` | `logistica123` | `ROLE_LOGISTICA` |
-| 🟡 `calidad` | `calidad123` | `ROLE_CALIDAD` |
+| `admin` | `admin123` | `ROLE_ADMIN` |
+| `logistica` | `logistica123` | `ROLE_LOGISTICA` |
+| `calidad` | `calidad123` | `ROLE_CALIDAD` |
 
 ---
 
-## 🐟 Especies (GestionEspecieService)
+## Especies (GestionEspecieService)
 
-### 🟢 `GET` http://localhost:8080/api/v1/especies
+### `GET` http://localhost:8080/api/v1/especies
 Lista todas las especies registradas en el sistema.
 
 * **Autenticación:** Requerida (Cualquier Rol)
@@ -83,7 +83,7 @@ Lista todas las especies registradas en el sistema.
 ]
 ```
 
-### 🟢 `GET` http://localhost:8080/api/v1/especies/{id}
+### `GET` http://localhost:8080/api/v1/especies/{id}
 Obtiene una especie específica por su identificador primario.
 
 * **Autenticación:** Requerida (Cualquier Rol)
@@ -101,7 +101,7 @@ Obtiene una especie específica por su identificador primario.
 ```
 * **Response 404 (Not Found):** Especie no encontrada.
 
-### 🔵 `POST` http://localhost:8080/api/v1/especies
+### `POST` http://localhost:8080/api/v1/especies
 Registra una nueva especie en el sistema.
 
 * **Autenticación:** Requerida (`ROLE_ADMIN`)
@@ -118,7 +118,7 @@ Registra una nueva especie en el sistema.
 ```
 * **Response 201 (Created):** Retorna la especie guardada con su identificador generado.
 
-### 🟡 `PUT` http://localhost:8080/api/v1/especies/{id}
+### `PUT` http://localhost:8080/api/v1/especies/{id}
 Actualiza los datos de una especie existente.
 
 * **Autenticación:** Requerida (`ROLE_ADMIN`)
@@ -135,7 +135,7 @@ Actualiza los datos de una especie existente.
 ```
 * **Response 200 (OK):** Especie modificada con éxito.
 
-### 🔴 `DELETE` http://localhost:8080/api/v1/especies/{id}
+### `DELETE` http://localhost:8080/api/v1/especies/{id}
 Elimina físicamente una especie por su identificador.
 
 * **Autenticación:** Requerida (`ROLE_ADMIN`)
@@ -145,7 +145,7 @@ Elimina físicamente una especie por su identificador.
 
 ## 🚢 Lotes CHD (LotePescaService — Adapter SIP Legacy)
 
-### 🟢 `GET` http://localhost:8080/api/v1/adaptadores/sip/lotes
+### `GET` http://localhost:8080/api/v1/adaptadores/sip/lotes
 Obtiene todos los lotes de pesca CHD registrados en el formato de DTO canónico.
 
 * **Autenticación:** Requerida (Cualquier Rol)
@@ -166,7 +166,7 @@ Obtiene todos los lotes de pesca CHD registrados en el formato de DTO canónico.
 ]
 ```
 
-### 🟢 `GET` http://localhost:8080/api/v1/adaptadores/sip/lotes/{id}
+### `GET` http://localhost:8080/api/v1/adaptadores/sip/lotes/{id}
 Obtiene los detalles en formato DTO canónico de un lote por su identificador.
 
 * **Autenticación:** Requerida (Cualquier Rol)
@@ -186,7 +186,7 @@ Obtiene los detalles en formato DTO canónico de un lote por su identificador.
 ```
 * **Response 404 (Not Found):** Lote no encontrado.
 
-### 🔵 `POST` http://localhost:8080/api/v1/adaptadores/sip/lotes
+### `POST` http://localhost:8080/api/v1/adaptadores/sip/lotes
 Registra un nuevo lote de pesca CHD heredado desde el sistema SIP. El sistema valida si la especie del lote está bajo periodo de veda activa.
 
 * **Autenticación:** Requerida (`ROLE_ADMIN` o `ROLE_LOGISTICA`)
@@ -236,7 +236,7 @@ Registra un nuevo lote de pesca CHD heredado desde el sistema SIP. El sistema va
 > }
 > ```
 
-### 🟡 `PUT` http://localhost:8080/api/v1/adaptadores/sip/lotes/{id}/estado
+### `PUT` http://localhost:8080/api/v1/adaptadores/sip/lotes/{id}/estado
 Actualiza el estado general de un lote.
 
 * **Autenticación:** Requerida (`ROLE_ADMIN` o `ROLE_CALIDAD`)
@@ -245,9 +245,9 @@ Actualiza el estado general de un lote.
 
 ---
 
-## 🌡️ Auditorías de Calidad (AuditoriaCalidadService — QualityTrac)
+## Auditorías de Calidad (AuditoriaCalidadService — QualityTrac)
 
-### 🔵 `POST` http://localhost:8080/api/v1/auditorias
+### `POST` http://localhost:8080/api/v1/auditorias
 Registra una auditoría de temperatura. El sistema verifica si la temperatura medida se encuentra dentro de los parámetros críticos del rango térmico de la especie. Si es fuera de rango, altera el estado de frío del lote a `"ALERTA"`.
 
 * **Autenticación:** Requerida (`ROLE_ADMIN` o `ROLE_CALIDAD`)
@@ -292,7 +292,7 @@ Registra una auditoría de temperatura. El sistema verifica si la temperatura me
 }
 ```
 
-### 🟢 `GET` http://localhost:8080/api/v1/auditorias/lote/{idLote}
+### `GET` http://localhost:8080/api/v1/auditorias/lote/{idLote}
 Recupera el historial de auditorías de temperatura registradas para un lote en específico.
 
 * **Autenticación:** Requerida (Cualquier Rol)
@@ -312,9 +312,9 @@ Recupera el historial de auditorías de temperatura registradas para un lote en 
 
 ---
 
-## 🔀 Orquestación SOA (TramiteSanipesService — ESB WSO2 simulado)
+## Orquestación SOA (TramiteSanipesService — ESB WSO2 simulado)
 
-### 🔵 `POST` http://localhost:8080/api/v1/orch/sanipes-check/{idLote}
+### `POST` http://localhost:8080/api/v1/orch/sanipes-check/{idLote}
 Orquesta la verificación de aptitud e inicia formalmente el trámite de certificación SANIPES. El servicio valida que la cadena de frío esté en `"OK"`. Si cumple, genera un código y URL de certificado de manera simulada y actualiza el lote a `"APTO"` / `"APROBADO"`.
 
 * **Autenticación:** Requerida (`ROLE_ADMIN` o `ROLE_LOGISTICA`)
@@ -341,7 +341,7 @@ Orquesta la verificación de aptitud e inicia formalmente el trámite de certifi
 > }
 > ```
 
-### 🟢 `GET` http://localhost:8080/api/v1/orch/expediente-certificado/{idLote}
+### `GET` http://localhost:8080/api/v1/orch/expediente-certificado/{idLote}
 Recupera el expediente o trámite SANIPES correspondiente a un lote.
 
 * **Autenticación:** Requerida (Cualquier Rol)
@@ -357,7 +357,7 @@ Recupera el expediente o trámite SANIPES correspondiente a un lote.
 }
 ```
 
-### 🟢 `GET` http://localhost:8080/api/v1/orch/estado-integral/{idLote}
+### `GET` http://localhost:8080/api/v1/orch/estado-integral/{idLote}
 Retorna el estado del lote en formato DTO canónico con todas las banderas de trazabilidad unificadas.
 
 * **Autenticación:** Requerida (Cualquier Rol)
@@ -378,7 +378,7 @@ Retorna el estado del lote en formato DTO canónico con todas las banderas de tr
 
 ---
 
-## 🚫 Códigos de Error Globales
+## Códigos de Error Globales
 
 | Código HTTP | Significado | Causa Común |
 |---|---|---|
@@ -392,7 +392,7 @@ Retorna el estado del lote en formato DTO canónico con todas las banderas de tr
 
 ---
 
-## 🛣️ Flujo de Uso Recomendado (Happy Path)
+## Flujo de Uso Recomendado (Happy Path)
 
 ```mermaid
 graph TD
