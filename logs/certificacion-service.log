@@ -1,0 +1,61 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.6)
+
+2026-06-28T17:23:19.458-05:00  INFO 48408 --- [           main] c.e.c.CertificacionServiceApplication    : Starting CertificacionServiceApplication v1.0.0-SNAPSHOT using Java 26.0.1 with PID 48408 (C:\Users\Lenovo\Documents\ksyan\ksyan\exportrace-ica-backend\certificacion-service\target\certificacion-service-1.0.0-SNAPSHOT.jar started by Lenovo in C:\Users\Lenovo\Documents\ksyan\ksyan)
+2026-06-28T17:23:19.461-05:00  INFO 48408 --- [           main] c.e.c.CertificacionServiceApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-06-28T17:23:21.904-05:00  INFO 48408 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-28T17:23:22.341-05:00  INFO 48408 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 332 ms. Found 1 JPA repository interface.
+2026-06-28T17:23:28.467-05:00  INFO 48408 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
+2026-06-28T17:23:28.593-05:00  INFO 48408 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-28T17:23:28.595-05:00  INFO 48408 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2026-06-28T17:23:28.927-05:00  INFO 48408 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-28T17:23:28.927-05:00  INFO 48408 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 9381 ms
+2026-06-28T17:23:31.040-05:00  INFO 48408 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-28T17:23:31.313-05:00  INFO 48408 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.15.Final
+2026-06-28T17:23:31.421-05:00  INFO 48408 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-28T17:23:33.658-05:00  INFO 48408 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-28T17:23:33.738-05:00  INFO 48408 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-28T17:23:35.663-05:00  INFO 48408 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2b3f7704
+2026-06-28T17:23:35.669-05:00  INFO 48408 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-28T17:23:36.100-05:00  WARN 48408 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-28T17:23:36.214-05:00  INFO 48408 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.46
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-28T17:23:40.679-05:00  INFO 48408 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-28T17:23:40.871-05:00  INFO 48408 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-28T17:23:41.808-05:00  WARN 48408 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-28T17:23:41.852-05:00  WARN 48408 --- [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 50cf3d35-15de-4244-b255-e955a324dbf4
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-06-28T17:23:41.890-05:00  INFO 48408 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-06-28T17:23:45.154-05:00  INFO 48408 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path '/'
+2026-06-28T17:23:45.223-05:00  INFO 48408 --- [           main] c.e.c.CertificacionServiceApplication    : Started CertificacionServiceApplication in 26.543 seconds (process running for 27.33)
+Hibernate: select count(*) from tramite_sanipes ts1_0
+2026-06-28T17:23:46.818-05:00  INFO 48408 --- [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-28T17:23:46.819-05:00  INFO 48408 --- [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-28T17:23:46.821-05:00  INFO 48408 --- [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+Hibernate: select ts1_0.id,ts1_0.estado_tramite,ts1_0.fecha_aprobacion,ts1_0.fecha_solicitud,ts1_0.id_lote,ts1_0.numero_certificado,ts1_0.observacion_sanipes from tramite_sanipes ts1_0 where ts1_0.id_lote=?
+Hibernate: select ts1_0.id,ts1_0.estado_tramite,ts1_0.fecha_aprobacion,ts1_0.fecha_solicitud,ts1_0.id_lote,ts1_0.numero_certificado,ts1_0.observacion_sanipes from tramite_sanipes ts1_0 where ts1_0.id_lote=?
+Hibernate: select ts1_0.id,ts1_0.estado_tramite,ts1_0.fecha_aprobacion,ts1_0.fecha_solicitud,ts1_0.id_lote,ts1_0.numero_certificado,ts1_0.observacion_sanipes from tramite_sanipes ts1_0 where ts1_0.id_lote=?
+Hibernate: select ts1_0.id,ts1_0.estado_tramite,ts1_0.fecha_aprobacion,ts1_0.fecha_solicitud,ts1_0.id_lote,ts1_0.numero_certificado,ts1_0.observacion_sanipes from tramite_sanipes ts1_0 where ts1_0.id_lote=?
+Hibernate: select ts1_0.id,ts1_0.estado_tramite,ts1_0.fecha_aprobacion,ts1_0.fecha_solicitud,ts1_0.id_lote,ts1_0.numero_certificado,ts1_0.observacion_sanipes from tramite_sanipes ts1_0 where ts1_0.id_lote=?
+Hibernate: select ts1_0.id,ts1_0.estado_tramite,ts1_0.fecha_aprobacion,ts1_0.fecha_solicitud,ts1_0.id_lote,ts1_0.numero_certificado,ts1_0.observacion_sanipes from tramite_sanipes ts1_0 where ts1_0.id_lote=?
+Hibernate: select ts1_0.id,ts1_0.estado_tramite,ts1_0.fecha_aprobacion,ts1_0.fecha_solicitud,ts1_0.id_lote,ts1_0.numero_certificado,ts1_0.observacion_sanipes from tramite_sanipes ts1_0 where ts1_0.id_lote=?
+Hibernate: select ts1_0.id,ts1_0.estado_tramite,ts1_0.fecha_aprobacion,ts1_0.fecha_solicitud,ts1_0.id_lote,ts1_0.numero_certificado,ts1_0.observacion_sanipes from tramite_sanipes ts1_0 where ts1_0.id_lote=?
+Hibernate: select ts1_0.id,ts1_0.estado_tramite,ts1_0.fecha_aprobacion,ts1_0.fecha_solicitud,ts1_0.id_lote,ts1_0.numero_certificado,ts1_0.observacion_sanipes from tramite_sanipes ts1_0 where ts1_0.id_lote=?
+Hibernate: select ts1_0.id,ts1_0.estado_tramite,ts1_0.fecha_aprobacion,ts1_0.fecha_solicitud,ts1_0.id_lote,ts1_0.numero_certificado,ts1_0.observacion_sanipes from tramite_sanipes ts1_0 where ts1_0.id_lote=?

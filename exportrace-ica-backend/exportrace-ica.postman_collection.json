@@ -1,0 +1,288 @@
+{
+	"info": {
+		"name": "ExporTrace ICA Backend",
+		"description": "Colección completa de endpoints para la suite ExporTrace ICA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	],
+	"item": [
+		{
+			"name": "Auth Service",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/v1/auth/login",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"calidad\",\n  \"password\": \"calidad123\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Validate Token",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/v1/auth/validate",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Lote Pesca Service",
+			"item": [
+				{
+					"name": "Listar Lotes",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/v1/adaptadores/sip/lotes",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				},
+				{
+					"name": "Obtener Lote por ID",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/v1/adaptadores/sip/lotes/1",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				},
+				{
+					"name": "Crear Lote",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/v1/adaptadores/sip/lotes",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"codigoLote\": \"LOT-2026-010\",\n  \"especie\": \"POTA\",\n  \"nombreEmbarcacion\": \"San Pedro II\",\n  \"pesoKg\": 2500.0\n}"
+						}
+					}
+				},
+				{
+					"name": "Actualizar Estado SANIPES",
+					"request": {
+						"method": "PUT",
+						"url": "{{baseUrl}}/api/v1/adaptadores/sip/lotes/1/estado-sanipes?estadoSanipes=APROBADO",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				},
+				{
+					"name": "Filtrar por Especie y Estado",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/v1/adaptadores/sip/lotes/especie/POTA/estado/PENDIENTE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				},
+				{
+					"name": "Listar Especies",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/v1/maestros/especies",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				},
+				{
+					"name": "Actualizar Veda",
+					"request": {
+						"method": "PUT",
+						"url": "{{baseUrl}}/api/v1/maestros/especies/1/edav?enVeda=true",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Monitoreo Cold Service",
+			"item": [
+				{
+					"name": "Registrar Temperatura",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/v1/calidad/temperaturas",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idLote\": 1,\n  \"idInspector\": 2,\n  \"temperaturaCelsius\": -16.5,\n  \"idCamara\": \"CAMARA-01\",\n  \"observaciones\": \"Temperatura dentro de rango\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Historial Temperaturas Lote",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/v1/calidad/temperaturas/lote/1",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				},
+				{
+					"name": "Resumen Frío Lote",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/v1/calidad/temperaturas/lote/1/resumen",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				},
+				{
+					"name": "Listar Reglas",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/v1/calidad/reglas",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				},
+				{
+					"name": "Crear Regla",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/v1/calidad/reglas",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"codigoEspecie\": \"ATUN\",\n  \"tempMinAlerta\": -20.0,\n  \"tempMaxAlerta\": -16.0,\n  \"accionAlerta\": \"EMAIL\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Certificación Service",
+			"item": [
+				{
+					"name": "Orquestar Trámite SANIPES",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/v1/orch/sanipes-check/1",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				},
+				{
+					"name": "Obtener Expediente",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/v1/orch/expediente-certificado/1",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				},
+				{
+					"name": "Listar Trámites del Lote",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/v1/tramites/lote/1",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						]
+					}
+				}
+			]
+		}
+	]
+}

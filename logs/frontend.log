@@ -1,0 +1,32 @@
+
+> exportrace-ica-frontend@1.0.0 dev
+> next dev -p 3000
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+> [PWA] PWA support is disabled
+> [PWA] PWA support is disabled
+ ✓ Ready in 3.7s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 709ms (72 modules)
+ ○ Compiling /login ...
+(node:31028) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ Compiled /login in 12.7s (719 modules)
+ GET /login 200 in 14385ms
+ ✓ Compiled in 1734ms (324 modules)
+ GET /login 200 in 1840ms
+ ○ Compiling /dashboard ...
+ ✓ Compiled /dashboard in 2.8s (802 modules)
+ ○ Compiling /dashboard/calidad ...
+ ✓ Compiled /dashboard/calidad in 4s (816 modules)
+ ○ Compiling /dashboard/calidad/registrar ...
+ ✓ Compiled /dashboard/calidad/registrar in 4.8s (864 modules)
+ ○ Compiling /dashboard/lotes ...
+ ✓ Compiled /dashboard/lotes in 1257ms (872 modules)
+ ○ Compiling /dashboard/certificaciones ...
+ ✓ Compiled /dashboard/certificaciones in 1091ms (882 modules)
+ ✓ Compiled in 2.7s (896 modules)
