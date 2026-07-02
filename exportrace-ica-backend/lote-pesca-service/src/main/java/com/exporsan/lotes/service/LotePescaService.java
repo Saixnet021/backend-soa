@@ -27,6 +27,7 @@ public class LotePescaService {
     private final EmpresaRepository empresaRepository;
     private final ExternalValidationService externalValidationService;
     private final RestTemplate restTemplate;
+    private final RucService rucService;
 
     @Value("${certificacion.service.url:http://localhost:8083}")
     private String certificacionServiceUrl;
@@ -36,13 +37,15 @@ public class LotePescaService {
                             EmbarcacionRepository embarcacionRepository,
                             EmpresaRepository empresaRepository,
                             ExternalValidationService externalValidationService,
-                            RestTemplate restTemplate) {
+                            RestTemplate restTemplate,
+                            RucService rucService) {
         this.lotePescaRepository = lotePescaRepository;
         this.especieRepository = especieRepository;
         this.embarcacionRepository = embarcacionRepository;
         this.empresaRepository = empresaRepository;
         this.externalValidationService = externalValidationService;
         this.restTemplate = restTemplate;
+        this.rucService = rucService;
     }
 
     public List<LotePesca> listarTodos() {
@@ -72,8 +75,8 @@ public class LotePescaService {
         }
 
         if (lote.getEmpresa() == null && lote.getEmpresaRuc() != null) {
-            empresaRepository.findByRuc(lote.getEmpresaRuc())
-                    .ifPresent(lote::setEmpresa);
+            Empresa empresa = rucService.buscarOCrearEmpresa(lote.getEmpresaRuc());
+            lote.setEmpresa(empresa);
         }
 
         lote.setEstadoSanipes("PENDIENTE");
@@ -100,7 +103,7 @@ public class LotePescaService {
     public LotePesca registrarFechaSalida(Long id, LocalDateTime fechaSalida) {
         LotePesca lote = obtenerPorId(id);
 
-        if (!"APROBADO".equals(lote.getEstadoSanipes()) && !"APTO_EXPORTACION".equals(lote.getEstadoSanipes())) {
+        if (!"APROBADO".equals(lote.getEstadoSanipes())) {
             throw new IllegalStateException("El lote no tiene certificado SANIPES aprobado. No se puede registrar fecha de salida.");
         }
 
@@ -109,7 +112,6 @@ public class LotePescaService {
         }
 
         lote.setFechaSalidaLote(fechaSalida);
-        lote.setEstadoSanipes("APTO_EXPORTACION");
         LotePesca saved = lotePescaRepository.save(lote);
 
         try {

@@ -123,7 +123,7 @@ export default function LoteDetallePage() {
   const especieInfo = ESPECIES_MOCK.find(e => e.nombreComun === lote.especie)
   const tiempoPlanta = calcularTiempoEnPlanta(lote.fechaRecepcion, lote.fechaSalidaLote)
   const puedeRegistrarSalida = usuario && (usuario.rol === 'ADMIN' || usuario.rol === 'LOGISTICA') &&
-    (lote.estadoSanipes === 'APROBADO' || lote.estadoSanipes === 'APTO_EXPORTACION')
+    lote.estadoSanipes === 'APROBADO'
 
   return (
     <div className="space-y-6">
@@ -139,7 +139,7 @@ export default function LoteDetallePage() {
               <Badge variant={lote.estadoCadenaFrio === 'OK' ? 'success' : lote.estadoCadenaFrio === 'ALERTA' ? 'warning' : 'danger'} className="text-sm px-3 py-1">
                 <Thermometer className="h-3 w-3 mr-1" /> {lote.estadoCadenaFrio}
               </Badge>
-              <Badge variant={lote.estadoSanipes === 'APROBADO' || lote.estadoSanipes === 'APTO_EXPORTACION' ? 'success' : lote.estadoSanipes === 'RECHAZADO' ? 'danger' : 'gray'} className="text-sm px-3 py-1">
+              <Badge variant={lote.estadoSanipes === 'APROBADO' ? 'success' : lote.estadoSanipes === 'RECHAZADO' ? 'danger' : 'gray'} className="text-sm px-3 py-1">
                 <FileCheck className="h-3 w-3 mr-1" /> {lote.estadoSanipes}
               </Badge>
               {lote.fechaSalidaLote && (
@@ -242,8 +242,13 @@ export default function LoteDetallePage() {
           {expediente ? (
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <Badge variant="success">APROBADO</Badge>
-                <span className="text-sm">Certificado: {expediente.tramite.numeroCertificado}</span>
+                  <Badge variant="success">APROBADO</Badge>
+                {expediente?.tramite && (
+                  <span className="text-sm">Certificado: {expediente.tramite.numeroCertificado}</span>
+                )}
+                {expediente?.tramite ? null : (
+                  <span className="text-sm text-muted">Sin certificado</span>
+                )}
               </div>
               {expediente.aptoParaExportacion && (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-800 flex items-center gap-2">

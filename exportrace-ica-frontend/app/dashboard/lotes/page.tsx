@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuthStore } from '@/store/authStore'
 import { getLotes, getEspecies, crearLote } from '@/lib/api/lotes'
+import { consultarRuc } from '@/lib/api/consultas'
 import type { LotePesca, EstadoSanipes, EstadoCadenaFrio, Especie } from '@/types'
 import { LOTES_MOCK, ESPECIES_MOCK } from '@/types'
 import { Button } from '@/components/ui/button'
@@ -43,7 +44,7 @@ export default function LotesPage() {
   const [especieSeleccionada, setEspecieSeleccionada] = useState<Especie | null>(null)
   const usuario = useAuthStore(s => s.usuario)
 
-  const { register, handleSubmit, watch, reset, formState: { errors, isSubmitting } } = useForm<FormData>({
+  const { register, handleSubmit, watch, reset, setValue, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { fechaRecepcion: new Date().toISOString().slice(0, 16) }
   })
@@ -60,6 +61,44 @@ export default function LotesPage() {
     setEspecieSeleccionada(esp || null)
   }, [especieWatch, especies])
 
+  const empresaRucWatch = watch('empresaRuc')
+  const [buscandoRuc, setBuscandoRuc] = useState(false)
+  const [errorRuc, setErrorRuc] = useState('')
+  const [razonSocialAuto, setRazonSocialAuto] = useState('')
+
+  useEffect(() => {
+    if (!empresaRucWatch || empresaRucWatch.length !== 11) {
+      setRazonSocialAuto('')
+      setErrorRuc('')
+      return
+    }
+    if (!/^\d{11}$/.test(empresaRucWatch)) return
+
+    let cancelled = false
+    setBuscandoRuc(true)
+    setErrorRuc('')
+    consultarRuc(empresaRucWatch)
+      .then(data => {
+        if (cancelled) return
+        if (data?.razonSocial) {
+          setRazonSocialAuto(data.razonSocial)
+          setValue('empresaRazonSocial', data.razonSocial)
+        } else {
+          setRazonSocialAuto('')
+          setErrorRuc('RUC no encontrado en SUNAT')
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setRazonSocialAuto('')
+          setErrorRuc('Error al consultar RUC')
+        }
+      })
+      .finally(() => { if (!cancelled) setBuscandoRuc(false) })
+
+    return () => { cancelled = true }
+  }, [empresaRucWatch])
+
   const filtered = lotes.filter(l => {
     const searchText = search.toLowerCase()
     const matchSearch = !search || l.codigoLote.toLowerCase().includes(searchText) || l.especie.toLowerCase().includes(searchText) || l.nombreEmbarcacion.toLowerCase().includes(searchText) || (l.empresaRazonSocial || '').toLowerCase().includes(searchText) || (l.empresaRuc || '').toLowerCase().includes(searchText)
@@ -69,10 +108,13 @@ export default function LotesPage() {
   })
 
   const badgeFrio = (v: EstadoCadenaFrio) => <Badge variant={v === 'OK' ? 'success' : v === 'ALERTA' ? 'warning' : 'danger'}>{v}</Badge>
-  const badgeSanipes = (v: EstadoSanipes) => <Badge variant={v === 'APTO_EXPORTACION' ? 'info' : v === 'APROBADO' ? 'success' : v === 'RECHAZADO' ? 'danger' : 'gray'}>{v}</Badge>
+  const badgeSanipes = (v: EstadoSanipes) => <Badge variant={v === 'APROBADO' ? 'success' : v === 'RECHAZADO' ? 'danger' : 'gray'}>{v}</Badge>
 
   const abrirModal = () => {
     reset({ fechaRecepcion: new Date().toISOString().slice(0, 16) })
+    setRazonSocialAuto('')
+    setErrorRuc('')
+    setBuscandoRuc(false)
     setShowModal(true)
   }
 
@@ -107,7 +149,6 @@ export default function LotesPage() {
             <option value="PENDIENTE">PENDIENTE</option>
             <option value="APROBADO">APROBADO</option>
             <option value="RECHAZADO">RECHAZADO</option>
-            <option value="APTO_EXPORTACION">APTO EXPORTACIÓN</option>
           </Select>
           <Select value={filtroFrio} onChange={e => setFiltroFrio(e.target.value)}>
             <option value="">Cadena Frío</option>
@@ -215,13 +256,29 @@ export default function LotesPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium">Razón social de la empresa</label>
-                  <Input {...register('empresaRazonSocial')} placeholder="Pesquera Ejemplo S.A.C." />
+                  <Input
+                    {...register('empresaRazonSocial')}
+                    placeholder="Se autocompleta con el RUC"
+                    readOnly={!!razonSocialAuto}
+                    className={razonSocialAuto ? 'bg-green-50 border-green-200 text-green-800' : ''}
+                  />
                   {errors.empresaRazonSocial && <p className="text-xs text-danger mt-1">{errors.empresaRazonSocial.message}</p>}
                 </div>
                 <div>
                   <label className="text-sm font-medium">RUC de la empresa</label>
-                  <Input {...register('empresaRuc')} placeholder="20512345678" />
+                  <div className="relative">
+                    <Input {...register('empresaRuc')} placeholder="20512345678" />
+                    {buscandoRuc && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <div className="h-4 w-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                      </div>
+                    )}
+                    {razonSocialAuto && !buscandoRuc && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-green-600 text-sm">✓</div>
+                    )}
+                  </div>
                   {errors.empresaRuc && <p className="text-xs text-danger mt-1">{errors.empresaRuc.message}</p>}
+                  {errorRuc && <p className="text-xs text-danger mt-1">{errorRuc}</p>}
                 </div>
               </div>
               <div>

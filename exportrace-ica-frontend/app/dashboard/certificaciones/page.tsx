@@ -54,7 +54,7 @@ export default function CertificacionesPage() {
                 <TableCell className="font-medium">{l.codigoLote}</TableCell>
                 <TableCell>{l.especie}</TableCell>
                 <TableCell>{l.pesoKg} kg</TableCell>
-                <TableCell><Badge variant={l.estadoSanipes === 'APROBADO' || l.estadoSanipes === 'APTO_EXPORTACION' ? 'success' : 'gray'}>{l.estadoSanipes}</Badge></TableCell>
+                <TableCell><Badge variant={l.estadoSanipes === 'APROBADO' ? 'success' : 'gray'}>{l.estadoSanipes}</Badge></TableCell>
                 <TableCell>{ultimo?.numeroCertificado || '—'}</TableCell>
                 <TableCell>{ultimo?.fechaAprobacion ? formatDate(ultimo.fechaAprobacion) : '—'}</TableCell>
                 <TableCell>

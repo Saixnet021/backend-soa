@@ -28,7 +28,7 @@ export default function DashboardPage() {
   }, [])
 
   const totalLotes = lotes.length
-  const aptos = lotes.filter(l => l.estadoSanipes === 'APROBADO' || l.estadoSanipes === 'APTO_EXPORTACION').length
+  const aptos = lotes.filter(l => l.estadoSanipes === 'APROBADO').length
   const alertas = lotes.filter(l => l.estadoCadenaFrio !== 'OK').length
   const recientes = [...lotes].sort((a, b) => new Date(b.fechaRecepcion).getTime() - new Date(a.fechaRecepcion).getTime()).slice(0, 5)
   const alertasActivas = lotes.filter(l => l.estadoCadenaFrio === 'ALERTA' || l.estadoCadenaFrio === 'RUPTURA')
@@ -100,7 +100,7 @@ export default function DashboardPage() {
                       <Badge variant={l.estadoCadenaFrio === 'OK' ? 'success' : l.estadoCadenaFrio === 'ALERTA' ? 'warning' : 'danger'}>{l.estadoCadenaFrio}</Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={l.estadoSanipes === 'APROBADO' || l.estadoSanipes === 'APTO_EXPORTACION' ? 'success' : l.estadoSanipes === 'RECHAZADO' ? 'danger' : 'gray'}>{l.estadoSanipes}</Badge>
+                      <Badge variant={l.estadoSanipes === 'APROBADO' ? 'success' : l.estadoSanipes === 'RECHAZADO' ? 'danger' : 'gray'}>{l.estadoSanipes}</Badge>
                     </TableCell>
                     <TableCell>
                       {l.fechaSalidaLote ? (

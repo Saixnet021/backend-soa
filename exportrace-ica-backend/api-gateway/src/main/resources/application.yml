@@ -18,7 +18,7 @@ spring:
         - id: lote-pesca-service
           uri: http://localhost:8081
           predicates:
-            - Path=/api/v1/adaptadores/**,/api/v1/maestros/**
+            - Path=/api/v1/adaptadores/**,/api/v1/maestros/**,/api/v1/consultas/**
         - id: monitoreo-cold-service
           uri: http://localhost:8082
           predicates:

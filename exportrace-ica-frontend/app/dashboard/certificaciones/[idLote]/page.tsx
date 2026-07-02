@@ -83,7 +83,7 @@ export default function ExpedientePage() {
             <div><p className="text-xs text-muted-foreground">Recepción</p><p className="font-medium">{formatDate(expediente.lote.fechaRecepcion)}</p></div>
             <div><p className="text-xs text-muted-foreground">Fecha Salida</p><p className="font-medium">{expediente.fechaSalidaLote ? formatDateTime(expediente.fechaSalidaLote) : <span className="text-muted-foreground">No registrada</span>}</p></div>
             <div><p className="text-xs text-muted-foreground">Tiempo en Planta</p><p className="font-medium">{expediente.fechaSalidaLote ? (calcularTiempoEnPlanta(expediente.lote.fechaRecepcion, expediente.fechaSalidaLote) || '—') : <span className="text-muted-foreground">—</span>}</p></div>
-            <div><p className="text-xs text-muted-foreground">Estado SANIPES</p><Badge variant={expediente.lote.estadoSanipes === 'APTO_EXPORTACION' ? 'info' : 'success'}>{expediente.lote.estadoSanipes}</Badge></div>
+            <div><p className="text-xs text-muted-foreground">Estado SANIPES</p><Badge variant={expediente.lote.estadoSanipes === 'APROBADO' ? 'success' : expediente.lote.estadoSanipes === 'RECHAZADO' ? 'danger' : 'gray'}>{expediente.lote.estadoSanipes}</Badge></div>
           </div>
         </CardContent>
       </Card>

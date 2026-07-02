@@ -70,6 +70,7 @@ public class DataInitializer implements CommandLineRunner {
             emp1.setDireccion("Av. Industrial 123, Lima");
             emp1.setTelefono("015551234");
             emp1.setEmail("contacto@sanpedro.com");
+            emp1.setEstado("ACTIVA");
             empresaRepository.save(emp1);
 
             Empresa emp2 = new Empresa();
@@ -78,6 +79,7 @@ public class DataInitializer implements CommandLineRunner {
             emp2.setDireccion("Jr. Pesquero 456, Ica");
             emp2.setTelefono("015555678");
             emp2.setEmail("info@mariscosdelsur.com");
+            emp2.setEstado("ACTIVA");
             empresaRepository.save(emp2);
 
             Empresa emp3 = new Empresa();
@@ -86,6 +88,7 @@ public class DataInitializer implements CommandLineRunner {
             emp3.setDireccion("Calle del Mar 789, Pisco");
             emp3.setTelefono("015559012");
             emp3.setEmail("ventas@hidrobiologicos.com");
+            emp3.setEstado("ACTIVA");
             empresaRepository.save(emp3);
 
             Empresa emp4 = new Empresa();
@@ -94,6 +97,7 @@ public class DataInitializer implements CommandLineRunner {
             emp4.setDireccion("Av. del Puerto 321, Callao");
             emp4.setTelefono("015553456");
             emp4.setEmail("operaciones@elvikingo.com");
+            emp4.setEstado("ACTIVA");
             empresaRepository.save(emp4);
 
             Empresa emp5 = new Empresa();
@@ -102,6 +106,7 @@ public class DataInitializer implements CommandLineRunner {
             emp5.setDireccion("Malecon 654, Chimbote");
             emp5.setTelefono("015557890");
             emp5.setEmail("admin@santarosamar.com");
+            emp5.setEstado("ACTIVA");
             empresaRepository.save(emp5);
         }
 
@@ -181,6 +186,7 @@ public class DataInitializer implements CommandLineRunner {
             Empresa emp4 = empresaRepository.findByRuc("20123456789").orElse(null);
             Empresa emp5 = empresaRepository.findByRuc("20555111222").orElse(null);
 
+            // Lote 1: POTA de San Pedro I — lote pequeno recepcionado y aprobado el mismo dia
             LotePesca lote1 = new LotePesca();
             lote1.setCodigoLote("LOT-2026-001");
             lote1.setEspecie("POTA");
@@ -193,6 +199,7 @@ public class DataInitializer implements CommandLineRunner {
             lote1.setFechaSalidaLote(LocalDateTime.of(2026, 6, 15, 14, 30));
             lotePescaRepository.save(lote1);
 
+            // Lote 2: POTA de Don Aurelio — lote grande aprobado tras 2 dias de inspeccion
             LotePesca lote2 = new LotePesca();
             lote2.setCodigoLote("LOT-2026-002");
             lote2.setEspecie("POTA");
@@ -200,10 +207,12 @@ public class DataInitializer implements CommandLineRunner {
             lote2.setEmpresa(emp2);
             lote2.setPesoKg(3000.0);
             lote2.setFechaRecepcion(LocalDateTime.of(2026, 6, 20, 8, 15));
-            lote2.setEstadoSanipes("PENDIENTE");
+            lote2.setEstadoSanipes("APROBADO");
             lote2.setEstadoCadenaFrio("OK");
+            lote2.setFechaSalidaLote(LocalDateTime.of(2026, 6, 22, 10, 0));
             lotePescaRepository.save(lote2);
 
+            // Lote 3: PERICO de Luz Marina — cadena de frio ROTA, RECHAZADO por SANIPES
             LotePesca lote3 = new LotePesca();
             lote3.setCodigoLote("LOT-2026-003");
             lote3.setEspecie("PERICO");
@@ -211,11 +220,11 @@ public class DataInitializer implements CommandLineRunner {
             lote3.setEmpresa(emp3);
             lote3.setPesoKg(800.0);
             lote3.setFechaRecepcion(LocalDateTime.of(2026, 6, 22, 14, 0));
-            lote3.setEstadoSanipes("PENDIENTE");
-            lote3.setEstadoCadenaFrio("OK");
-            lote3.setFechaSalidaLote(LocalDateTime.of(2026, 6, 15, 8, 0));
+            lote3.setEstadoSanipes("RECHAZADO");
+            lote3.setEstadoCadenaFrio("ALERTA");
             lotePescaRepository.save(lote3);
 
+            // Lote 4: PERICO de El Vikingo — aprobado y despachado al dia siguiente
             LotePesca lote4 = new LotePesca();
             lote4.setCodigoLote("LOT-2026-004");
             lote4.setEspecie("PERICO");
@@ -223,10 +232,12 @@ public class DataInitializer implements CommandLineRunner {
             lote4.setEmpresa(emp4);
             lote4.setPesoKg(2000.0);
             lote4.setFechaRecepcion(LocalDateTime.of(2026, 6, 25, 9, 45));
-            lote4.setEstadoSanipes("APTO_EXPORTACION");
+            lote4.setEstadoSanipes("APROBADO");
             lote4.setEstadoCadenaFrio("OK");
+            lote4.setFechaSalidaLote(LocalDateTime.of(2026, 6, 26, 6, 0));
             lotePescaRepository.save(lote4);
 
+            // Lote 5: CABALLA de Santa Rosa — recepcionado recientemente, pendiente de inspeccion
             LotePesca lote5 = new LotePesca();
             lote5.setCodigoLote("LOT-2026-005");
             lote5.setEspecie("CABALLA");
@@ -235,7 +246,7 @@ public class DataInitializer implements CommandLineRunner {
             lote5.setPesoKg(4500.0);
             lote5.setFechaRecepcion(LocalDateTime.of(2026, 6, 28, 7, 0));
             lote5.setEstadoSanipes("PENDIENTE");
-            lote5.setEstadoCadenaFrio("ALERTA");
+            lote5.setEstadoCadenaFrio("OK");
             lotePescaRepository.save(lote5);
         }
     }
