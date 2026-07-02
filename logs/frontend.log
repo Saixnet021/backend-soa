@@ -1,0 +1,119 @@
+
+> exportrace-ica-frontend@1.0.0 dev
+> next dev -p 3000
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+  - Environments: .env.local, .env
+
+ ✓ Starting...
+> [PWA] PWA support is disabled
+> [PWA] PWA support is disabled
+ ✓ Ready in 3.7s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 1008ms (72 modules)
+ ○ Compiling /dashboard ...
+(node:17724) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ Compiled /dashboard in 14.2s (807 modules)
+ GET /dashboard 200 in 15591ms
+ ✓ Compiled in 1352ms (363 modules)
+ ✓ Compiled in 256ms (349 modules)
+ ○ Compiling /dashboard/lotes ...
+ ✓ Compiled /dashboard/lotes in 2.5s (828 modules)
+ ○ Compiling /dashboard/certificaciones ...
+ ✓ Compiled /dashboard/certificaciones in 820ms (838 modules)
+ ○ Compiling /dashboard/especies ...
+ ✓ Compiled /dashboard/especies in 1370ms (848 modules)
+ ○ Compiling /dashboard/arquitectura ...
+ ✓ Compiled /dashboard/arquitectura in 1585ms (888 modules)
+ GET /dashboard/lotes 200 in 475ms
+ GET /dashboard/lotes 200 in 131ms
+ ✓ Compiled in 5.2s (902 modules)
+ ✓ Compiled in 1507ms (888 modules)
+ ✓ Compiled in 1463ms (888 modules)
+ ✓ Compiled in 1233ms (888 modules)
+ ✓ Compiled in 2.6s (888 modules)
+ ✓ Compiled in 1195ms (411 modules)
+ ✓ Compiled in 3s (902 modules)
+ ✓ Compiled in 1787ms (902 modules)
+ ✓ Compiled in 1687ms (902 modules)
+ ✓ Compiled in 2.3s (902 modules)
+ ✓ Compiled in 1426ms (902 modules)
+ ✓ Compiled in 1701ms (902 modules)
+ ✓ Compiled in 1760ms (902 modules)
+ ✓ Compiled in 1769ms (902 modules)
+ ✓ Compiled in 1631ms (902 modules)
+ ✓ Compiled in 1724ms (902 modules)
+ ✓ Compiled in 752ms (411 modules)
+ ✓ Compiled in 717ms (411 modules)
+ ✓ Compiled in 916ms (411 modules)
+ ✓ Compiled in 2.5s (902 modules)
+ ✓ Compiled in 2.5s (902 modules)
+ ✓ Compiled in 4.3s (902 modules)
+ ○ Compiling /dashboard/calidad ...
+ ✓ Compiled /dashboard/calidad in 10.9s (920 modules)
+ ✓ Compiled in 1980ms (419 modules)
+ ○ Compiling /api/soap-proxy ...
+ ✓ Compiled /api/soap-proxy in 2.3s (531 modules)
+ POST /api/soap-proxy 200 in 6308ms
+ POST /api/soap-proxy 200 in 216ms
+ POST /api/soap-proxy 200 in 71ms
+ POST /api/soap-proxy 200 in 70ms
+ POST /api/soap-proxy 200 in 86ms
+ ✓ Compiled in 2.6s (915 modules)
+ ✓ Compiled /api/soap-proxy in 458ms (526 modules)
+ POST /api/soap-proxy 200 in 3008ms
+ POST /api/soap-proxy 200 in 352ms
+ ✓ Compiled in 3.5s (915 modules)
+ ✓ Compiled in 1489ms (915 modules)
+ ○ Compiling /api/soap-proxy ...
+ ✓ Compiled /api/soap-proxy in 2.7s (526 modules)
+ POST /api/soap-proxy 502 in 5751ms
+ ✓ Compiled in 5.4s (915 modules)
+ ○ Compiling /api/soap-proxy ...
+ ✓ Compiled /api/soap-proxy in 681ms (526 modules)
+ POST /api/soap-proxy 200 in 3215ms
+ POST /api/soap-proxy 200 in 62ms
+ POST /api/soap-proxy 200 in 69ms
+ POST /api/soap-proxy 200 in 53ms
+ GET /dashboard/arquitectura 200 in 642ms
+ GET /dashboard/arquitectura 200 in 74ms
+ POST /api/soap-proxy 502 in 80ms
+ POST /api/soap-proxy 502 in 37ms
+ GET /dashboard/arquitectura 200 in 80ms
+ POST /api/soap-proxy 200 in 69ms
+ POST /api/soap-proxy 200 in 52ms
+ ✓ Compiled in 2.9s (945 modules)
+ ✓ Compiled in 1857ms (915 modules)
+ ✓ Compiled in 1208ms (915 modules)
+ GET /dashboard/arquitectura 200 in 289ms
+ ✓ Compiled in 3.1s (915 modules)
+ ✓ Compiled in 1937ms (915 modules)
+ ✓ Compiled in 1610ms (915 modules)
+ ✓ Compiled in 2.7s (915 modules)
+ ✓ Compiled in 1047ms (915 modules)
+ GET /dashboard/arquitectura 200 in 302ms
+ ✓ Compiled in 4.4s (915 modules)
+ GET /dashboard/arquitectura 200 in 514ms
+ ○ Compiling /api/soap-proxy ...
+ ✓ Compiled /api/soap-proxy in 1348ms (526 modules)
+ POST /api/soap-proxy 200 in 4004ms
+ ○ Compiling /dashboard ...
+ ✓ Compiled /dashboard in 1298ms (501 modules)
+ ⚠ Found a change in next.config.js. Restarting the server to apply the changes...
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+  - Environments: .env.local, .env
+
+ ✓ Starting...
+> [PWA] PWA support is disabled
+> [PWA] PWA support is disabled
+ ✓ Ready in 77.9s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 872ms (72 modules)
+ ○ Compiling /dashboard/arquitectura ...
+(node:10156) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ Compiled /dashboard/certificaciones in 36.3s (836 modules)
+ GET /dashboard/certificaciones 200 in 17543ms

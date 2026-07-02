@@ -6,12 +6,26 @@ import java.math.BigDecimal;
 @XmlRootElement(name = "RegistrarEmbarcacionRequest", namespace = "http://exporsan.com/embarcaciones")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RegistrarEmbarcacionRequest {
+    @XmlElement(namespace = "http://exporsan.com/embarcaciones")
     private String nombreEmbarcacion;
+
+    @XmlElement(namespace = "http://exporsan.com/embarcaciones")
     private String matricula;
+
+    @XmlElement(namespace = "http://exporsan.com/embarcaciones")
     private String puertoBase;
+
+    @XmlElement(namespace = "http://exporsan.com/embarcaciones")
     private BigDecimal capacidadToneladas;
+
+    @XmlElement(namespace = "http://exporsan.com/embarcaciones")
     private String nombreCapitan;
+
+    @XmlElement(namespace = "http://exporsan.com/embarcaciones")
     private String licenciaCapitan;
+
+    @XmlElement(namespace = "http://exporsan.com/embarcaciones")
+    private Long idEmpresa;
 
     public String getNombreEmbarcacion() { return nombreEmbarcacion; }
     public void setNombreEmbarcacion(String nombreEmbarcacion) { this.nombreEmbarcacion = nombreEmbarcacion; }
@@ -25,4 +39,6 @@ public class RegistrarEmbarcacionRequest {
     public void setNombreCapitan(String nombreCapitan) { this.nombreCapitan = nombreCapitan; }
     public String getLicenciaCapitan() { return licenciaCapitan; }
     public void setLicenciaCapitan(String licenciaCapitan) { this.licenciaCapitan = licenciaCapitan; }
+    public Long getIdEmpresa() { return idEmpresa; }
+    public void setIdEmpresa(Long idEmpresa) { this.idEmpresa = idEmpresa; }
 }

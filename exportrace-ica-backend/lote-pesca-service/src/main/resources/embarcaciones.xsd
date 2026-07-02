@@ -31,6 +31,9 @@
             <xs:element name="estado" type="xs:string"/>
             <xs:element name="nombreCapitan" type="xs:string"/>
             <xs:element name="licenciaCapitan" type="xs:string"/>
+            <xs:element name="idEmpresa" type="xs:long" minOccurs="0"/>
+            <xs:element name="razonSocialEmpresa" type="xs:string" minOccurs="0"/>
+            <xs:element name="rucEmpresa" type="xs:string" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -43,6 +46,7 @@
                 <xs:element name="capacidadToneladas" type="xs:decimal"/>
                 <xs:element name="nombreCapitan" type="xs:string"/>
                 <xs:element name="licenciaCapitan" type="xs:string"/>
+                <xs:element name="idEmpresa" type="xs:long" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -73,6 +77,9 @@
                 <xs:element name="estado" type="xs:string"/>
                 <xs:element name="habilitada" type="xs:boolean"/>
                 <xs:element name="mensaje" type="xs:string"/>
+                <xs:element name="idEmpresa" type="xs:long" minOccurs="0"/>
+                <xs:element name="razonSocialEmpresa" type="xs:string" minOccurs="0"/>
+                <xs:element name="rucEmpresa" type="xs:string" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

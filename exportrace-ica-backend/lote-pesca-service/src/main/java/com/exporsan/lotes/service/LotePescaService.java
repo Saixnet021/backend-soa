@@ -1,8 +1,12 @@
 package com.exporsan.lotes.service;
 
 import com.exporsan.audit.Auditable;
+import com.exporsan.lotes.model.Embarcacion;
+import com.exporsan.lotes.model.Empresa;
 import com.exporsan.lotes.model.Especie;
 import com.exporsan.lotes.model.LotePesca;
+import com.exporsan.lotes.repository.EmbarcacionRepository;
+import com.exporsan.lotes.repository.EmpresaRepository;
 import com.exporsan.lotes.repository.EspecieRepository;
 import com.exporsan.lotes.repository.LotePescaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,6 +23,8 @@ public class LotePescaService {
 
     private final LotePescaRepository lotePescaRepository;
     private final EspecieRepository especieRepository;
+    private final EmbarcacionRepository embarcacionRepository;
+    private final EmpresaRepository empresaRepository;
     private final ExternalValidationService externalValidationService;
     private final RestTemplate restTemplate;
 
@@ -27,10 +33,14 @@ public class LotePescaService {
 
     public LotePescaService(LotePescaRepository lotePescaRepository,
                             EspecieRepository especieRepository,
+                            EmbarcacionRepository embarcacionRepository,
+                            EmpresaRepository empresaRepository,
                             ExternalValidationService externalValidationService,
                             RestTemplate restTemplate) {
         this.lotePescaRepository = lotePescaRepository;
         this.especieRepository = especieRepository;
+        this.embarcacionRepository = embarcacionRepository;
+        this.empresaRepository = empresaRepository;
         this.externalValidationService = externalValidationService;
         this.restTemplate = restTemplate;
     }
@@ -53,6 +63,17 @@ public class LotePescaService {
         if (externalValidationService.especieEnVeda(especie.getId())) {
             throw new IllegalStateException(
                     "La especie '" + lote.getEspecie() + "' se encuentra en veda. No se puede crear el lote.");
+        }
+
+        if (lote.getEmbarcacion() == null && lote.getNombreEmbarcacion() != null) {
+            embarcacionRepository.findByNombreEmbarcacionContainingIgnoreCase(lote.getNombreEmbarcacion())
+                    .stream().findFirst()
+                    .ifPresent(lote::setEmbarcacion);
+        }
+
+        if (lote.getEmpresa() == null && lote.getEmpresaRuc() != null) {
+            empresaRepository.findByRuc(lote.getEmpresaRuc())
+                    .ifPresent(lote::setEmpresa);
         }
 
         lote.setEstadoSanipes("PENDIENTE");

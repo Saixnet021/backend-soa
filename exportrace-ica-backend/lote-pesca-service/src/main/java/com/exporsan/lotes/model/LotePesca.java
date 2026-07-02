@@ -1,6 +1,8 @@
 package com.exporsan.lotes.model;
 
 import com.exporsan.audit.HasId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -18,17 +20,15 @@ public class LotePesca implements HasId {
     @Column(nullable = false)
     private String especie;
 
-    private String nombreEmbarcacion;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_embarcacion")
+    @JsonIgnore
+    private Embarcacion embarcacion;
 
-    @Column(length = 20)
-    private String matriculaEmbarcacion;
-
-    private String capitanEmbarcacion;
-
-    private String empresaRazonSocial;
-
-    @Column(length = 11)
-    private String empresaRuc;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_empresa")
+    @JsonIgnore
+    private Empresa empresa;
 
     private Double pesoKg;
 
@@ -42,6 +42,41 @@ public class LotePesca implements HasId {
     private LocalDateTime fechaSalidaLote;
 
     public LotePesca() {
+    }
+
+    @JsonProperty("nombreEmbarcacion")
+    public String getNombreEmbarcacion() {
+        return embarcacion != null ? embarcacion.getNombreEmbarcacion() : null;
+    }
+
+    @JsonProperty("matriculaEmbarcacion")
+    public String getMatriculaEmbarcacion() {
+        return embarcacion != null ? embarcacion.getMatricula() : null;
+    }
+
+    @JsonProperty("capitanEmbarcacion")
+    public String getCapitanEmbarcacion() {
+        return embarcacion != null ? embarcacion.getNombreCapitan() : null;
+    }
+
+    @JsonProperty("idEmbarcacion")
+    public Long getIdEmbarcacion() {
+        return embarcacion != null ? embarcacion.getId() : null;
+    }
+
+    @JsonProperty("empresaRazonSocial")
+    public String getEmpresaRazonSocial() {
+        return empresa != null ? empresa.getRazonSocial() : null;
+    }
+
+    @JsonProperty("empresaRuc")
+    public String getEmpresaRuc() {
+        return empresa != null ? empresa.getRuc() : null;
+    }
+
+    @JsonProperty("idEmpresa")
+    public Long getIdEmpresa() {
+        return empresa != null ? empresa.getId() : null;
     }
 
     public Long getId() {
@@ -68,44 +103,20 @@ public class LotePesca implements HasId {
         this.especie = especie;
     }
 
-    public String getNombreEmbarcacion() {
-        return nombreEmbarcacion;
+    public Embarcacion getEmbarcacion() {
+        return embarcacion;
     }
 
-    public void setNombreEmbarcacion(String nombreEmbarcacion) {
-        this.nombreEmbarcacion = nombreEmbarcacion;
+    public void setEmbarcacion(Embarcacion embarcacion) {
+        this.embarcacion = embarcacion;
     }
 
-    public String getMatriculaEmbarcacion() {
-        return matriculaEmbarcacion;
+    public Empresa getEmpresa() {
+        return empresa;
     }
 
-    public void setMatriculaEmbarcacion(String matriculaEmbarcacion) {
-        this.matriculaEmbarcacion = matriculaEmbarcacion;
-    }
-
-    public String getCapitanEmbarcacion() {
-        return capitanEmbarcacion;
-    }
-
-    public void setCapitanEmbarcacion(String capitanEmbarcacion) {
-        this.capitanEmbarcacion = capitanEmbarcacion;
-    }
-
-    public String getEmpresaRazonSocial() {
-        return empresaRazonSocial;
-    }
-
-    public void setEmpresaRazonSocial(String empresaRazonSocial) {
-        this.empresaRazonSocial = empresaRazonSocial;
-    }
-
-    public String getEmpresaRuc() {
-        return empresaRuc;
-    }
-
-    public void setEmpresaRuc(String empresaRuc) {
-        this.empresaRuc = empresaRuc;
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 
     public Double getPesoKg() {

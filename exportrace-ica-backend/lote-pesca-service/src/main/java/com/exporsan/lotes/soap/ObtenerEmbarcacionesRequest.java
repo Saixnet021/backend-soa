@@ -5,7 +5,10 @@ import jakarta.xml.bind.annotation.*;
 @XmlRootElement(name = "ObtenerEmbarcacionesRequest", namespace = "http://exporsan.com/embarcaciones")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObtenerEmbarcacionesRequest {
+    @XmlElement(namespace = "http://exporsan.com/embarcaciones")
     private Long idLote;
+
+    @XmlElement(namespace = "http://exporsan.com/embarcaciones")
     private String nombre;
 
     public Long getIdLote() { return idLote; }

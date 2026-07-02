@@ -1,7 +1,9 @@
 package com.exporsan.lotes.soap;
 
 import com.exporsan.lotes.model.Embarcacion;
+import com.exporsan.lotes.model.Empresa;
 import com.exporsan.lotes.repository.EmbarcacionRepository;
+import com.exporsan.lotes.repository.EmpresaRepository;
 import org.springframework.ws.server.endpoint.annotation.*;
 import org.springframework.ws.soap.server.endpoint.annotation.SoapAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class EmbarcacionesSoapEndpoint {
 
     @Autowired
     private EmbarcacionRepository repository;
+
+    @Autowired
+    private EmpresaRepository empresaRepository;
 
     @PayloadRoot(namespace = NAMESPACE, localPart = "ObtenerEmbarcacionesRequest")
     @ResponsePayload
@@ -43,6 +48,11 @@ public class EmbarcacionesSoapEndpoint {
             tipo.setEstado(e.getEstado());
             tipo.setNombreCapitan(e.getNombreCapitan());
             tipo.setLicenciaCapitan(e.getLicenciaCapitan());
+            if (e.getEmpresa() != null) {
+                tipo.setIdEmpresa(e.getEmpresa().getId());
+                tipo.setRazonSocialEmpresa(e.getEmpresa().getRazonSocial());
+                tipo.setRucEmpresa(e.getEmpresa().getRuc());
+            }
             response.getEmbarcaciones().add(tipo);
         }
         return response;
@@ -60,11 +70,16 @@ public class EmbarcacionesSoapEndpoint {
         embarcacion.setNombreCapitan(request.getNombreCapitan());
         embarcacion.setLicenciaCapitan(request.getLicenciaCapitan());
 
+        if (request.getIdEmpresa() != null) {
+            Optional<Empresa> empresa = empresaRepository.findById(request.getIdEmpresa());
+            empresa.ifPresent(embarcacion::setEmpresa);
+        }
+
         Embarcacion saved = repository.save(embarcacion);
 
         RegistrarEmbarcacionResponse response = new RegistrarEmbarcacionResponse();
         response.setId(saved.getId());
-        response.setMensaje("Embarcación registrada exitosamente");
+        response.setMensaje("Embarcacion registrada exitosamente");
         return response;
     }
 
@@ -82,11 +97,16 @@ public class EmbarcacionesSoapEndpoint {
             response.setPuertoBase(e.getPuertoBase());
             response.setEstado(e.getEstado());
             response.setHabilitada("ACTIVA".equals(e.getEstado()));
-            response.setMensaje("Embarcación " + e.getEstado().toLowerCase());
+            response.setMensaje("Embarcacion " + e.getEstado().toLowerCase());
+            if (e.getEmpresa() != null) {
+                response.setIdEmpresa(e.getEmpresa().getId());
+                response.setRazonSocialEmpresa(e.getEmpresa().getRazonSocial());
+                response.setRucEmpresa(e.getEmpresa().getRuc());
+            }
         } else {
             response.setMatricula(request.getMatricula());
             response.setHabilitada(false);
-            response.setMensaje("Embarcación no encontrada");
+            response.setMensaje("Embarcacion no encontrada");
         }
         return response;
     }

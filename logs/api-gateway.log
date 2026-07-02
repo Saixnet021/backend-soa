@@ -1,0 +1,33 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.6)
+
+2026-07-02T09:10:37.826-05:00  INFO 13728 --- [api-gateway] [           main] c.e.gateway.ApiGatewayApplication        : Starting ApiGatewayApplication v1.0.0-SNAPSHOT using Java 26.0.1 with PID 13728 (C:\Users\Lenovo\Documents\ksyan\ksyan\exportrace-ica-backend\api-gateway\target\api-gateway-1.0.0-SNAPSHOT.jar started by Lenovo in C:\Users\Lenovo\Documents\ksyan\ksyan)
+2026-07-02T09:10:37.832-05:00  INFO 13728 --- [api-gateway] [           main] c.e.gateway.ApiGatewayApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-07-02T09:10:42.905-05:00  INFO 13728 --- [api-gateway] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=6dd04c7a-b4bb-3327-8f6d-c09816ba1e0e
+2026-07-02T09:10:46.512-05:00  INFO 13728 --- [api-gateway] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2026-07-02T09:10:48.056-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2026-07-02T09:10:48.058-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2026-07-02T09:10:48.058-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2026-07-02T09:10:48.058-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2026-07-02T09:10:48.058-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2026-07-02T09:10:48.058-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2026-07-02T09:10:48.058-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2026-07-02T09:10:48.058-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2026-07-02T09:10:48.059-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2026-07-02T09:10:48.059-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2026-07-02T09:10:48.059-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2026-07-02T09:10:48.060-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2026-07-02T09:10:48.061-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2026-07-02T09:10:48.061-05:00  INFO 13728 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2026-07-02T09:10:50.229-05:00  INFO 13728 --- [api-gateway] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2026-07-02T09:10:50.863-05:00  INFO 13728 --- [api-gateway] [           main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8080 (http)
+2026-07-02T09:10:51.938-05:00  INFO 13728 --- [api-gateway] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2026-07-02T09:10:53.133-05:00  INFO 13728 --- [api-gateway] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2026-07-02T09:10:53.470-05:00  INFO 13728 --- [api-gateway] [           main] c.e.gateway.ApiGatewayApplication        : Started ApiGatewayApplication in 19.614 seconds (process running for 21.736)

@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { 
   Server, Database, Shield, Truck, Thermometer, FileCheck,
@@ -158,6 +157,14 @@ export default function ArquitecturaSOAPage() {
   const [soapResponse, setSoapResponse] = useState('');
   const [soapLoading, setSoapLoading] = useState(false);
   const [loading, setLoading] = useState(true);
+  const soapPreRef = useRef<HTMLPreElement>(null);
+
+  const syncScroll = (e: React.UIEvent<HTMLTextAreaElement>) => {
+    if (soapPreRef.current) {
+      soapPreRef.current.scrollTop = e.currentTarget.scrollTop;
+      soapPreRef.current.scrollLeft = e.currentTarget.scrollLeft;
+    }
+  };
 
   useEffect(() => {
     loadAllData();
@@ -182,6 +189,56 @@ export default function ArquitecturaSOAPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const highlightXml = (xml: string): React.ReactNode => {
+    const parts: React.ReactNode[] = [];
+    let remaining = xml;
+    let key = 0;
+
+    const regex = /(<\?[\s\S]*?\?>|<!--[\s\S]*?-->|<\/?[\w:-]+(?:\s+[\w:-]+(?:=(?:"[^"]*"|'[^\']*'|[^\s>]*))?)*\s*\/?>|&[a-z]+;|&#[0-9]+;|&#x[0-9a-fA-F]+;|[^<&]+)/g;
+    let match: RegExpExecArray | null;
+
+    while ((match = regex.exec(remaining)) !== null) {
+      const token = match[0];
+      if (token.startsWith('<?')) {
+        parts.push(<span key={key++} className="text-gray-400">{token}</span>);
+      } else if (token.startsWith('<!--')) {
+        parts.push(<span key={key++} className="text-gray-400 italic">{token}</span>);
+      } else if (token.startsWith('</')) {
+        parts.push(<span key={key++} className="text-rose-400">{token}</span>);
+      } else if (token.startsWith('<')) {
+        parts.push(<span key={key++} className="text-rose-400">{token}</span>);
+      } else if (token.startsWith('&')) {
+        parts.push(<span key={key++} className="text-amber-400">{token}</span>);
+      } else {
+        parts.push(<span key={key++} className="text-emerald-400">{token}</span>);
+      }
+    }
+    return parts.length > 0 ? parts : xml;
+  };
+
+  const highlightSoapRequest = (xml: string): React.ReactNode => {
+    const parts: React.ReactNode[] = [];
+    let key = 0;
+    const regex = /(<\?[\s\S]*?\?>|<\/?[\w:-]+(?:\s+[\w:-]+=(?:"[^"]*"|'[^\']*'))?\s*\/?>|&[a-z]+;|[^<&]+)/g;
+    let match: RegExpExecArray | null;
+
+    while ((match = regex.exec(xml)) !== null) {
+      const token = match[0];
+      if (token.startsWith('<?')) {
+        parts.push(<span key={key++} className="text-gray-400">{token}</span>);
+      } else if (token.startsWith('</')) {
+        parts.push(<span key={key++} className="text-blue-400">{token}</span>);
+      } else if (token.startsWith('<')) {
+        parts.push(<span key={key++} className="text-blue-400">{token}</span>);
+      } else if (token.startsWith('&')) {
+        parts.push(<span key={key++} className="text-amber-400">{token}</span>);
+      } else {
+        parts.push(<span key={key++} className="text-gray-200">{token}</span>);
+      }
+    }
+    return parts.length > 0 ? parts : xml;
   };
 
   const formatXml = (xml: string): string => {
@@ -456,13 +513,23 @@ export default function ArquitecturaSOAPage() {
             <CardContent className="space-y-4">
               <div>
                 <label className="text-sm font-medium mb-2 block">Request SOAP (XML)</label>
-                <Textarea
-                  value={soapRequest}
-                  onChange={(e) => setSoapRequest(e.target.value)}
-                  rows={15}
-                  className="font-mono text-xs"
-                  placeholder="Escribe tu SOAP request XML aquí..."
-                />
+                <div className="relative border rounded-lg bg-gray-900 overflow-hidden" style={{ height: '380px' }}>
+                  <pre
+                    ref={soapPreRef}
+                    className="absolute inset-0 font-mono text-xs p-4 overflow-auto whitespace-pre-wrap break-words pointer-events-none m-0"
+                    aria-hidden="true"
+                  >
+                    <code>{highlightSoapRequest(soapRequest)}</code>
+                  </pre>
+                  <textarea
+                    value={soapRequest}
+                    onChange={(e) => setSoapRequest(e.target.value)}
+                    onScroll={syncScroll}
+                    className="absolute inset-0 w-full h-full font-mono text-xs p-4 bg-transparent text-transparent caret-white resize-none focus:outline-none overflow-auto whitespace-pre-wrap break-words"
+                    spellCheck="false"
+                    placeholder="Escribe tu SOAP request XML aquí..."
+                  />
+                </div>
               </div>
               <div className="flex gap-2">
                 <Button onClick={sendSoapRequest} disabled={soapLoading}>
@@ -480,12 +547,11 @@ export default function ArquitecturaSOAPage() {
               {soapResponse && (
                 <div>
                   <label className="text-sm font-medium mb-2 block">Response SOAP</label>
-                  <Textarea
-                    value={soapResponse}
-                    readOnly
-                    rows={15}
-                    className="font-mono text-xs bg-gray-50"
-                  />
+                  <div className="border rounded-lg bg-gray-900 p-4 max-h-[500px] overflow-auto">
+                    <pre className="font-mono text-xs whitespace-pre-wrap break-words">
+                      <code>{highlightXml(soapResponse)}</code>
+                    </pre>
+                  </div>
                 </div>
               )}
             </CardContent>
@@ -498,9 +564,9 @@ export default function ArquitecturaSOAPage() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[
-                  { action: 'ObtenerEmbarcaciones', desc: 'Consulta embarcaciones por ID de lote o nombre', icon: Truck },
-                  { action: 'RegistrarEmbarcacion', desc: 'Registra una nueva embarcación en el sistema', icon: Zap },
-                  { action: 'ValidarEstadoEmbarcacion', desc: 'Valida el estado de una embarcación por matrícula', icon: CheckCircle }
+                  { action: 'ObtenerEmbarcaciones', desc: 'Consulta embarcaciones con datos de empresa (ID, nombre o todos)', icon: Truck },
+                  { action: 'RegistrarEmbarcacion', desc: 'Registra embarcacion vinculada a una empresa por idEmpresa', icon: Zap },
+                  { action: 'ValidarEstadoEmbarcacion', desc: 'Valida estado por matricula, incluye datos de empresa', icon: CheckCircle }
                 ].map(op => (
                   <div key={op.action} className="p-4 border rounded-lg space-y-2">
                     <div className="flex items-center space-x-2">
@@ -524,8 +590,9 @@ export default function ArquitecturaSOAPage() {
       <emb:matricula>PQ-001</emb:matricula>
       <emb:puertoBase>Puerto Maldonado</emb:puertoBase>
       <emb:capacidadToneladas>150.5</emb:capacidadToneladas>
-      <emb:nombreCapitan>Juan Perez</emb:nombreCapitan>
+      <emb:nombreCapitan>Anderson Fernandez</emb:nombreCapitan>
       <emb:licenciaCapitan>LIC-12345</emb:licenciaCapitan>
+      <emb:idEmpresa>1</emb:idEmpresa>
     </emb:RegistrarEmbarcacionRequest>
   </soap:Body>
 </soap:Envelope>`;

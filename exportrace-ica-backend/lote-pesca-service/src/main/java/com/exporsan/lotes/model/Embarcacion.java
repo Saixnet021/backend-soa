@@ -1,5 +1,7 @@
 package com.exporsan.lotes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
@@ -26,8 +28,28 @@ public class Embarcacion {
 
     private String licenciaCapitan;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_empresa")
+    @JsonIgnore
+    private Empresa empresa;
+
     public Embarcacion() {
         this.estado = "ACTIVA";
+    }
+
+    @JsonProperty("idEmpresa")
+    public Long getIdEmpresa() {
+        return empresa != null ? empresa.getId() : null;
+    }
+
+    @JsonProperty("razonSocialEmpresa")
+    public String getRazonSocialEmpresa() {
+        return empresa != null ? empresa.getRazonSocial() : null;
+    }
+
+    @JsonProperty("rucEmpresa")
+    public String getRucEmpresa() {
+        return empresa != null ? empresa.getRuc() : null;
     }
 
     public Long getId() { return id; }
@@ -46,4 +68,6 @@ public class Embarcacion {
     public void setNombreCapitan(String nombreCapitan) { this.nombreCapitan = nombreCapitan; }
     public String getLicenciaCapitan() { return licenciaCapitan; }
     public void setLicenciaCapitan(String licenciaCapitan) { this.licenciaCapitan = licenciaCapitan; }
+    public Empresa getEmpresa() { return empresa; }
+    public void setEmpresa(Empresa empresa) { this.empresa = empresa; }
 }

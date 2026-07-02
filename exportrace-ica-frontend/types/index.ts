@@ -29,6 +29,7 @@ export interface LotePesca {
   nombreEmbarcacion: string
   matriculaEmbarcacion?: string
   capitanEmbarcacion?: string
+  idEmbarcacion?: number
   empresaRazonSocial?: string
   empresaRuc?: string
   pesoKg: number

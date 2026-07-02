@@ -218,7 +218,7 @@ exit /b 0
   )
 
   echo  Iniciando %SVC% en puerto %PORT%...
-  start "%SVC%" /B java -jar "!FOUND_JAR!" --server.port=%PORT% > "%LOGS_DIR%\%SVC%.log" 2>&1
+  start "%SVC%" /B java -Duser.timezone=America/Lima -jar "!FOUND_JAR!" --server.port=%PORT% > "%LOGS_DIR%\%SVC%.log" 2>&1
   echo  OK: %SVC% lanzado (log: %LOGS_DIR%\%SVC%.log)
 goto :eof
 
