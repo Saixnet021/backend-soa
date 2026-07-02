@@ -13,6 +13,8 @@ public class LoteDTO {
     private Double pesoKg;
     private String estadoSanipes;
     private String estadoCadenaFrio;
+    private String fechaRecepcion;
+    private String fechaSalidaLote;
 
     public LoteDTO() {
     }
@@ -49,4 +51,10 @@ public class LoteDTO {
 
     public String getEstadoCadenaFrio() { return estadoCadenaFrio; }
     public void setEstadoCadenaFrio(String estadoCadenaFrio) { this.estadoCadenaFrio = estadoCadenaFrio; }
+
+    public String getFechaRecepcion() { return fechaRecepcion; }
+    public void setFechaRecepcion(String fechaRecepcion) { this.fechaRecepcion = fechaRecepcion; }
+
+    public String getFechaSalidaLote() { return fechaSalidaLote; }
+    public void setFechaSalidaLote(String fechaSalidaLote) { this.fechaSalidaLote = fechaSalidaLote; }
 }

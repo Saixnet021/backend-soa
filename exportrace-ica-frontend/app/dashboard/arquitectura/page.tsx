@@ -135,7 +135,8 @@ const BPM_STATES = [
   { id: 'EN_REVISION', label: 'En Revisión', color: 'bg-orange-100 border-orange-300 text-orange-800' },
   { id: 'OBSERVADO', label: 'Observado', color: 'bg-red-100 border-red-300 text-red-800' },
   { id: 'CERTIFICADO', label: 'Certificado', color: 'bg-green-100 border-green-300 text-green-800' },
-  { id: 'RECHAZADO', label: 'Rechazado', color: 'bg-red-100 border-red-300 text-red-800' }
+  { id: 'RECHAZADO', label: 'Rechazado', color: 'bg-red-100 border-red-300 text-red-800' },
+  { id: 'LISTO_PARA_DESPACHO', label: 'Listo para Despacho', color: 'bg-teal-100 border-teal-300 text-teal-800' }
 ];
 
 const SOAP_REQUEST = `<?xml version="1.0" encoding="UTF-8"?>
@@ -379,8 +380,8 @@ export default function ArquitecturaSOAPage() {
                         <p className="text-sm font-medium">Proceso #{proc.id} - {proc.tipoProceso}</p>
                         <p className="text-xs text-muted-foreground">Lote #{proc.loteId}</p>
                       </div>
-                      <Badge variant={proc.estado === 'CERTIFICADO' ? 'success' : 'warning'}>
-                        {proc.estado}
+                      <Badge variant={proc.estado === 'CERTIFICADO' || proc.estado === 'LISTO_PARA_DESPACHO' ? 'success' : 'warning'}>
+                        {proc.estado === 'LISTO_PARA_DESPACHO' ? 'LISTO PARA DESPACHO' : proc.estado}
                       </Badge>
                     </div>
                   ))}
@@ -402,7 +403,8 @@ export default function ArquitecturaSOAPage() {
                   { method: 'GET', path: '/api/v1/bpm/procesos', desc: 'Listar todos los procesos' },
                   { method: 'GET', path: '/api/v1/bpm/procesos/lote/{loteId}', desc: 'Procesos por lote' },
                   { method: 'GET', path: '/api/v1/bpm/notificaciones', desc: 'Notificaciones pendientes' },
-                  { method: 'PUT', path: '/api/v1/bpm/notificaciones/{id}/leer', desc: 'Marcar notificación leída' }
+                  { method: 'PUT', path: '/api/v1/bpm/notificaciones/{id}/leer', desc: 'Marcar notificación leída' },
+                  { method: 'POST', path: '/api/v1/bpm/procesos/lote/{loteId}/avanzar', desc: 'Avanzar proceso por lote (usado por fecha salida)' }
                 ].map((api, i) => (
                   <div key={i} className="flex items-center space-x-3 p-2 bg-gray-50 rounded">
                     <Badge variant={api.method === 'POST' ? 'success' : api.method === 'PUT' ? 'info' : 'gray'} className="w-16 justify-center">

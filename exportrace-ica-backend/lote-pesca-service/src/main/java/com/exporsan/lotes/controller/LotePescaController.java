@@ -6,7 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/adaptadores/sip/lotes")
@@ -45,6 +47,14 @@ public class LotePescaController {
             @PathVariable Long id,
             @RequestParam String estado) {
         return ResponseEntity.ok(lotePescaService.actualizarEstadoCadenaFrio(id, estado));
+    }
+
+    @PostMapping(value = "/{id}/fecha-salida", produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})
+    public ResponseEntity<LotePesca> registrarFechaSalida(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> body) {
+        LocalDateTime fechaSalida = LocalDateTime.parse(body.get("fechaSalidaLote"));
+        return ResponseEntity.ok(lotePescaService.registrarFechaSalida(id, fechaSalida));
     }
 
     @GetMapping(value = "/especie/{especie}/estado/{estadoSanipes}", produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})

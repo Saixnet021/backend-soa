@@ -16,6 +16,11 @@ export async function crearLote(lote: Omit<LotePesca, 'id' | 'estadoSanipes' | '
   return data
 }
 
+export async function registrarFechaSalida(id: number, fechaSalidaLote: string): Promise<LotePesca> {
+  const { data } = await api.post<LotePesca>(`/api/v1/adaptadores/sip/lotes/${id}/fecha-salida`, { fechaSalidaLote })
+  return data
+}
+
 export async function getEspecies(): Promise<Especie[]> {
   const { data } = await api.get<Especie[]>('/api/v1/maestros/especies')
   return data

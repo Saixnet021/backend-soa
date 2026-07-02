@@ -36,7 +36,11 @@ public class BpmController {
         return ResponseEntity.ok(bpmService.registrarResultado(id, body.get("resultado"), usuarioId));
     }
 
-    @GetMapping("/procesos")
+    @PostMapping("/procesos/lote/{loteId}/avanzar")
+    public ResponseEntity<ProcesoNegocio> avanzarPorLote(@PathVariable Long loteId, @RequestBody Map<String, String> body) {
+        Long usuarioId = body.get("usuarioId") != null ? Long.valueOf(body.get("usuarioId")) : 1L;
+        return ResponseEntity.ok(bpmService.avanzarProcesoPorLote(loteId, body.get("etapa"), body.get("subEstado"), body.get("observacion"), usuarioId));
+    }
     public ResponseEntity<List<ProcesoNegocio>> listarProcesos() {
         return ResponseEntity.ok(bpmService.listarProcesos());
     }

@@ -13,9 +13,10 @@ import { Select } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Eye, Plus, Search, X } from 'lucide-react'
+import { Eye, Plus, Search, X, Truck } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { formatShortDateTime } from '@/lib/utils'
 
 const schema = z.object({
   codigoLote: z.string().min(1, 'Código requerido').regex(/^LOT-\d{4}-\d{3,}$/, 'Formato: LOT-YYYY-NNN'),
@@ -129,6 +130,7 @@ export default function LotesPage() {
             <TableHead>Peso</TableHead>
             <TableHead>Cadena Frío</TableHead>
             <TableHead>SANIPES</TableHead>
+            <TableHead>Salida</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -148,6 +150,13 @@ export default function LotesPage() {
               <TableCell>{badgeFrio(l.estadoCadenaFrio)}</TableCell>
               <TableCell>{badgeSanipes(l.estadoSanipes)}</TableCell>
               <TableCell>
+                {l.fechaSalidaLote ? (
+                  <span className="text-green-600 text-sm font-medium"><Truck className="h-3 w-3 inline mr-1" />{formatShortDateTime(l.fechaSalidaLote)}</span>
+                ) : (
+                  <span className="text-muted-foreground text-sm">—</span>
+                )}
+              </TableCell>
+              <TableCell>
                 <Link href={`/dashboard/lotes/${l.id}`}>
                   <Button variant="ghost" size="sm"><Eye className="h-4 w-4 mr-1" /> Ver</Button>
                 </Link>
@@ -155,7 +164,7 @@ export default function LotesPage() {
             </TableRow>
           ))}
           {filtered.length === 0 && (
-            <TableRow><TableCell colSpan={7} className="text-center text-muted-foreground py-8">No se encontraron lotes</TableCell></TableRow>
+            <TableRow><TableCell colSpan={8} className="text-center text-muted-foreground py-8">No se encontraron lotes</TableCell></TableRow>
           )}
         </TableBody>
       </Table>

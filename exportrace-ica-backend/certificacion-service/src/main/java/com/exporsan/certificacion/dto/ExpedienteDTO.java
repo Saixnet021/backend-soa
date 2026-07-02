@@ -7,6 +7,8 @@ public class ExpedienteDTO {
     private TramiteSanipesDTO tramite;
     private String qrData;
     private boolean aptoParaExportacion;
+    private String fechaSalidaLote;
+    private Long tiempoEnPlantaHoras;
 
     public ExpedienteDTO() {
     }
@@ -25,4 +27,10 @@ public class ExpedienteDTO {
 
     public boolean isAptoParaExportacion() { return aptoParaExportacion; }
     public void setAptoParaExportacion(boolean aptoParaExportacion) { this.aptoParaExportacion = aptoParaExportacion; }
+
+    public String getFechaSalidaLote() { return fechaSalidaLote; }
+    public void setFechaSalidaLote(String fechaSalidaLote) { this.fechaSalidaLote = fechaSalidaLote; }
+
+    public Long getTiempoEnPlantaHoras() { return tiempoEnPlantaHoras; }
+    public void setTiempoEnPlantaHoras(Long tiempoEnPlantaHoras) { this.tiempoEnPlantaHoras = tiempoEnPlantaHoras; }
 }

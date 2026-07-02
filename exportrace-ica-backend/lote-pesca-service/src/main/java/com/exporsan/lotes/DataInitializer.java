@@ -64,6 +64,7 @@ public class DataInitializer implements CommandLineRunner {
             lote1.setFechaRecepcion(LocalDateTime.of(2026, 6, 15, 10, 30));
             lote1.setEstadoSanipes("APROBADO");
             lote1.setEstadoCadenaFrio("OK");
+            lote1.setFechaSalidaLote(LocalDateTime.of(2026, 6, 15, 14, 30));
             lotePescaRepository.save(lote1);
 
             LotePesca lote2 = new LotePesca();
@@ -78,6 +79,7 @@ public class DataInitializer implements CommandLineRunner {
             lote2.setFechaRecepcion(LocalDateTime.of(2026, 6, 20, 8, 15));
             lote2.setEstadoSanipes("PENDIENTE");
             lote2.setEstadoCadenaFrio("OK");
+            // fechaSalidaLote queda null
             lotePescaRepository.save(lote2);
 
             LotePesca lote3 = new LotePesca();
@@ -92,6 +94,7 @@ public class DataInitializer implements CommandLineRunner {
             lote3.setFechaRecepcion(LocalDateTime.of(2026, 6, 22, 14, 0));
             lote3.setEstadoSanipes("PENDIENTE");
             lote3.setEstadoCadenaFrio("OK");
+            lote3.setFechaSalidaLote(LocalDateTime.of(2026, 6, 15, 8, 0));
             lotePescaRepository.save(lote3);
 
             LotePesca lote4 = new LotePesca();

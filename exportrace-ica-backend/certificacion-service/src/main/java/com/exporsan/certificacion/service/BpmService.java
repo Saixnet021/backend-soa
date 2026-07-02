@@ -35,6 +35,27 @@ public class BpmService {
         return saved;
     }
 
+    public ProcesoNegocio avanzarProcesoPorLote(Long loteId, String nuevaEtapa, String subEstado, String observacion, Long usuarioId) {
+        List<ProcesoNegocio> procesos = procesoRepository.findByLoteIdOrderByFechaInicioDesc(loteId);
+        if (procesos.isEmpty()) {
+            throw new RuntimeException("No hay procesos activos para el lote: " + loteId);
+        }
+        ProcesoNegocio proceso = procesos.get(0);
+        String estadoAnterior = proceso.getEstado();
+        proceso.setEstado(nuevaEtapa);
+        proceso.setSubEstado(subEstado != null ? subEstado : nuevaEtapa);
+        if (observacion != null) {
+            proceso.setDatosContexto(observacion);
+        }
+        if ("COMPLETADO".equals(nuevaEtapa) || "RECHAZADO".equals(nuevaEtapa)) {
+            proceso.setFechaFin(LocalDateTime.now());
+        }
+        ProcesoNegocio saved = procesoRepository.save(proceso);
+        crearNotificacion(saved.getId(), usuarioId, "CAMBIO_ESTADO",
+                "El proceso para lote #" + loteId + " cambió de " + estadoAnterior + " a " + nuevaEtapa + ". " + (observacion != null ? observacion : ""));
+        return saved;
+    }
+
     public ProcesoNegocio avanzarProceso(Long procesoId, String nuevoEstado, String subEstado, Long usuarioId) {
         ProcesoNegocio proceso = procesoRepository.findById(procesoId)
                 .orElseThrow(() -> new RuntimeException("Proceso no encontrado: " + procesoId));

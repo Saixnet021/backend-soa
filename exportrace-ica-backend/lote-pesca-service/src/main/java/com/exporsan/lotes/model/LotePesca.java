@@ -38,6 +38,9 @@ public class LotePesca implements HasId {
 
     private String estadoCadenaFrio;
 
+    @Column(nullable = true)
+    private LocalDateTime fechaSalidaLote;
+
     public LotePesca() {
     }
 
@@ -135,5 +138,13 @@ public class LotePesca implements HasId {
 
     public void setEstadoCadenaFrio(String estadoCadenaFrio) {
         this.estadoCadenaFrio = estadoCadenaFrio;
+    }
+
+    public LocalDateTime getFechaSalidaLote() {
+        return fechaSalidaLote;
+    }
+
+    public void setFechaSalidaLote(LocalDateTime fechaSalidaLote) {
+        this.fechaSalidaLote = fechaSalidaLote;
     }
 }

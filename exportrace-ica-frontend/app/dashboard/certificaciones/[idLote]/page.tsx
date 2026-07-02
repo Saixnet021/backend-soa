@@ -10,8 +10,8 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from 'sonner'
-import { ArrowLeft, Printer, Copy, FileCheck, Thermometer, Fish, QrCode } from 'lucide-react'
-import { formatDate, formatDateTime } from '@/lib/utils'
+import { ArrowLeft, Printer, Copy, FileCheck, Thermometer, Fish, QrCode, Truck } from 'lucide-react'
+import { formatDate, formatDateTime, calcularTiempoEnPlanta } from '@/lib/utils'
 import { QRCodeSVG } from 'qrcode.react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts'
 
@@ -81,6 +81,8 @@ export default function ExpedientePage() {
             <div><p className="text-xs text-muted-foreground">RUC</p><p className="font-medium">{expediente.lote.empresaRuc || '—'}</p></div>
             <div><p className="text-xs text-muted-foreground">Peso</p><p className="font-medium">{expediente.lote.pesoKg} kg</p></div>
             <div><p className="text-xs text-muted-foreground">Recepción</p><p className="font-medium">{formatDate(expediente.lote.fechaRecepcion)}</p></div>
+            <div><p className="text-xs text-muted-foreground">Fecha Salida</p><p className="font-medium">{expediente.fechaSalidaLote ? formatDateTime(expediente.fechaSalidaLote) : <span className="text-muted-foreground">No registrada</span>}</p></div>
+            <div><p className="text-xs text-muted-foreground">Tiempo en Planta</p><p className="font-medium">{expediente.fechaSalidaLote ? (calcularTiempoEnPlanta(expediente.lote.fechaRecepcion, expediente.fechaSalidaLote) || '—') : <span className="text-muted-foreground">—</span>}</p></div>
             <div><p className="text-xs text-muted-foreground">Estado SANIPES</p><Badge variant={expediente.lote.estadoSanipes === 'APTO_EXPORTACION' ? 'info' : 'success'}>{expediente.lote.estadoSanipes}</Badge></div>
           </div>
         </CardContent>
@@ -124,10 +126,13 @@ export default function ExpedientePage() {
         <CardContent>
           <div className="bg-green-50 border border-green-200 rounded-lg p-4">
             <div className="grid grid-cols-2 gap-4">
-              <div><p className="text-xs text-muted-foreground">N° Certificado</p><p className="font-medium text-lg">{expediente.tramite.numeroCertificado}</p></div>
-              <div><p className="text-xs text-muted-foreground">Fecha Aprobación</p><p className="font-medium">{expediente.tramite.fechaAprobacion ? formatDate(expediente.tramite.fechaAprobacion) : '—'}</p></div>
-              <div><p className="text-xs text-muted-foreground">Estado</p><Badge variant="success" className="text-sm">APROBADO</Badge></div>
-              <div><p className="text-xs text-muted-foreground">Apto Exportación</p><Badge variant={expediente.aptoParaExportacion ? 'success' : 'gray'}>{expediente.aptoParaExportacion ? 'SÍ' : 'NO'}</Badge></div>
+            <div><p className="text-xs text-muted-foreground">N° Certificado</p><p className="font-medium text-lg">{expediente.tramite.numeroCertificado}</p></div>
+            <div><p className="text-xs text-muted-foreground">Fecha Aprobación</p><p className="font-medium">{expediente.tramite.fechaAprobacion ? formatDate(expediente.tramite.fechaAprobacion) : '—'}</p></div>
+            <div><p className="text-xs text-muted-foreground">Estado</p><Badge variant="success" className="text-sm">APROBADO</Badge></div>
+            <div><p className="text-xs text-muted-foreground">Apto Exportación</p><Badge variant={expediente.aptoParaExportacion ? 'success' : 'gray'}>{expediente.aptoParaExportacion ? 'SÍ' : 'NO'}</Badge></div>
+            {expediente.fechaSalidaLote && (
+              <div className="col-span-2 mt-2"><Badge variant="info" className="text-sm"><Truck className="h-3 w-3 mr-1" /> LISTO PARA DESPACHO - Paracas</Badge></div>
+            )}
             </div>
           </div>
         </CardContent>

@@ -33,6 +33,7 @@ export interface LotePesca {
   empresaRuc?: string
   pesoKg: number
   fechaRecepcion: string
+  fechaSalidaLote?: string
   estadoSanipes: EstadoSanipes
   estadoCadenaFrio: EstadoCadenaFrio
 }
@@ -71,6 +72,8 @@ export interface ExpedienteCertificado {
   tramite: TramiteSanipes
   qrData: string
   aptoParaExportacion: boolean
+  fechaSalidaLote?: string
+  tiempoEnPlantaHoras?: number
 }
 
 export interface ReglaCalidad {
@@ -82,9 +85,9 @@ export interface ReglaCalidad {
 }
 
 export const LOTES_MOCK: LotePesca[] = [
-  { id: 1, codigoLote: "LOT-2026-001", especie: "POTA", nombreEmbarcacion: "Don Ramiro III", matriculaEmbarcacion: "DR-1001", capitanEmbarcacion: "Ramiro Quispe", empresaRazonSocial: "Pesquera Ramiro S.A.C.", empresaRuc: "20500000001", pesoKg: 500, fechaRecepcion: "2026-06-15T03:30:00", estadoSanipes: "APROBADO", estadoCadenaFrio: "OK" },
+  { id: 1, codigoLote: "LOT-2026-001", especie: "POTA", nombreEmbarcacion: "Don Ramiro III", matriculaEmbarcacion: "DR-1001", capitanEmbarcacion: "Ramiro Quispe", empresaRazonSocial: "Pesquera Ramiro S.A.C.", empresaRuc: "20500000001", pesoKg: 500, fechaRecepcion: "2026-06-15T03:30:00", fechaSalidaLote: "2026-06-15T14:30:00", estadoSanipes: "APROBADO", estadoCadenaFrio: "OK" },
   { id: 2, codigoLote: "LOT-2026-002", especie: "PERICO", nombreEmbarcacion: "Santa Rosa II", matriculaEmbarcacion: "SR-2002", capitanEmbarcacion: "Luis Torres", empresaRazonSocial: "Marítima Santa Rosa S.A.C.", empresaRuc: "20600000002", pesoKg: 320, fechaRecepcion: "2026-06-15T07:00:00", estadoSanipes: "PENDIENTE", estadoCadenaFrio: "ALERTA" },
-  { id: 3, codigoLote: "LOT-2026-003", especie: "POTA", nombreEmbarcacion: "Virgen del Carmen", matriculaEmbarcacion: "VC-3003", capitanEmbarcacion: "Julio Córdova", empresaRazonSocial: "Servicios Pesqueros del Sur E.I.R.L.", empresaRuc: "20400000003", pesoKg: 780, fechaRecepcion: "2026-06-14T22:00:00", estadoSanipes: "APTO_EXPORTACION", estadoCadenaFrio: "OK" },
+  { id: 3, codigoLote: "LOT-2026-003", especie: "POTA", nombreEmbarcacion: "Virgen del Carmen", matriculaEmbarcacion: "VC-3003", capitanEmbarcacion: "Julio Córdova", empresaRazonSocial: "Servicios Pesqueros del Sur E.I.R.L.", empresaRuc: "20400000003", pesoKg: 780, fechaRecepcion: "2026-06-14T22:00:00", fechaSalidaLote: "2026-06-15T08:00:00", estadoSanipes: "APTO_EXPORTACION", estadoCadenaFrio: "OK" },
 ]
 
 export const ESPECIES_MOCK: Especie[] = [

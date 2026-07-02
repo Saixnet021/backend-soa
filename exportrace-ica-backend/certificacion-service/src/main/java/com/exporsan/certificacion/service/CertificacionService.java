@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.Comparator;
@@ -138,6 +139,20 @@ public class CertificacionService {
 
         if (numeroCertificado != null) {
             expediente.setQrData("https://exportrace.ica/certificado/" + numeroCertificado);
+        }
+
+        if (lote != null && lote.getFechaSalidaLote() != null) {
+            expediente.setFechaSalidaLote(lote.getFechaSalidaLote());
+            if (lote.getFechaRecepcion() != null) {
+                try {
+                    LocalDateTime recepcion = LocalDateTime.parse(lote.getFechaRecepcion().replace("T", "T").substring(0, 19));
+                    LocalDateTime salida = LocalDateTime.parse(lote.getFechaSalidaLote().replace("T", "T").substring(0, 19));
+                    long horas = Duration.between(recepcion, salida).toHours();
+                    expediente.setTiempoEnPlantaHoras(horas);
+                } catch (Exception e) {
+                    // No calcular si hay error de formato
+                }
+            }
         }
 
         boolean estadoCadenaFrioOk = resumenFrio != null && "OK".equals(resumenFrio.getEstadoCadenaFrio());

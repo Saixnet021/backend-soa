@@ -6,11 +6,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Eye, Fish, Thermometer, FileCheck, AlertTriangle } from 'lucide-react'
+import { Eye, Fish, Thermometer, FileCheck, AlertTriangle, Truck } from 'lucide-react'
 import { getLotes } from '@/lib/api/lotes'
 import { useNotificacionesStore } from '@/store/notificacionesStore'
 import type { LotePesca } from '@/types'
 import { LOTES_MOCK } from '@/types'
+import { formatShortDateTime } from '@/lib/utils'
 
 export default function DashboardPage() {
   const [lotes, setLotes] = useState<LotePesca[]>(LOTES_MOCK)
@@ -31,18 +32,25 @@ export default function DashboardPage() {
   const alertas = lotes.filter(l => l.estadoCadenaFrio !== 'OK').length
   const recientes = [...lotes].sort((a, b) => new Date(b.fechaRecepcion).getTime() - new Date(a.fechaRecepcion).getTime()).slice(0, 5)
   const alertasActivas = lotes.filter(l => l.estadoCadenaFrio === 'ALERTA' || l.estadoCadenaFrio === 'RUPTURA')
+  const hoy = new Date()
+  const salidasHoy = lotes.filter(l => {
+    if (!l.fechaSalidaLote) return false
+    const fs = new Date(l.fechaSalidaLote)
+    return fs.getDate() === hoy.getDate() && fs.getMonth() === hoy.getMonth() && fs.getFullYear() === hoy.getFullYear()
+  }).length
 
   const stats = [
     { label: 'Lotes Totales', value: totalLotes, icon: Fish, color: 'text-primary' },
     { label: 'Aptos Exportación', value: aptos, icon: FileCheck, color: 'text-success' },
     { label: 'Alertas Frío', value: alertas, icon: Thermometer, color: alertas > 0 ? 'text-danger' : 'text-success' },
     { label: 'Pendientes SANIPES', value: lotes.filter(l => l.estadoSanipes === 'PENDIENTE').length, icon: AlertTriangle, color: 'text-warning' },
+    { label: 'Salidas Hoy', value: salidasHoy, icon: Truck, color: 'text-blue-600' },
   ]
 
   if (loading) return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {[1,2,3,4].map(i => <Skeleton key={i} className="h-28 rounded-lg" />)}
+        {[1,2,3,4,5].map(i => <Skeleton key={i} className="h-28 rounded-lg" />)}
       </div>
       <Skeleton className="h-64 rounded-lg" />
     </div>
@@ -50,7 +58,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {stats.map((s) => (
           <Card key={s.label}>
             <CardContent className="p-4 flex items-center gap-3">
@@ -78,6 +86,7 @@ export default function DashboardPage() {
                   <TableHead>Peso</TableHead>
                   <TableHead>Frío</TableHead>
                   <TableHead>SANIPES</TableHead>
+                  <TableHead>Salida</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
@@ -92,6 +101,13 @@ export default function DashboardPage() {
                     </TableCell>
                     <TableCell>
                       <Badge variant={l.estadoSanipes === 'APROBADO' || l.estadoSanipes === 'APTO_EXPORTACION' ? 'success' : l.estadoSanipes === 'RECHAZADO' ? 'danger' : 'gray'}>{l.estadoSanipes}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      {l.fechaSalidaLote ? (
+                        <span className="text-green-600 text-xs font-medium"><Truck className="h-3 w-3 inline mr-1" />{formatShortDateTime(l.fechaSalidaLote)}</span>
+                      ) : (
+                        <span className="text-muted-foreground text-xs">Pendiente</span>
+                      )}
                     </TableCell>
                     <TableCell>
                       <Link href={`/dashboard/lotes/${l.id}`}>

@@ -6,10 +6,13 @@ import com.exporsan.lotes.model.LotePesca;
 import com.exporsan.lotes.repository.EspecieRepository;
 import com.exporsan.lotes.repository.LotePescaRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class LotePescaService {
@@ -17,13 +20,19 @@ public class LotePescaService {
     private final LotePescaRepository lotePescaRepository;
     private final EspecieRepository especieRepository;
     private final ExternalValidationService externalValidationService;
+    private final RestTemplate restTemplate;
+
+    @Value("${certificacion.service.url:http://localhost:8083}")
+    private String certificacionServiceUrl;
 
     public LotePescaService(LotePescaRepository lotePescaRepository,
                             EspecieRepository especieRepository,
-                            ExternalValidationService externalValidationService) {
+                            ExternalValidationService externalValidationService,
+                            RestTemplate restTemplate) {
         this.lotePescaRepository = lotePescaRepository;
         this.especieRepository = especieRepository;
         this.externalValidationService = externalValidationService;
+        this.restTemplate = restTemplate;
     }
 
     public List<LotePesca> listarTodos() {
@@ -64,6 +73,35 @@ public class LotePescaService {
         LotePesca lote = obtenerPorId(id);
         lote.setEstadoCadenaFrio(estado);
         return lotePescaRepository.save(lote);
+    }
+
+    @Auditable(accion = "REGISTRAR_FECHA_SALIDA", entidad = "LotePesca")
+    public LotePesca registrarFechaSalida(Long id, LocalDateTime fechaSalida) {
+        LotePesca lote = obtenerPorId(id);
+
+        if (!"APROBADO".equals(lote.getEstadoSanipes()) && !"APTO_EXPORTACION".equals(lote.getEstadoSanipes())) {
+            throw new IllegalStateException("El lote no tiene certificado SANIPES aprobado. No se puede registrar fecha de salida.");
+        }
+
+        if (fechaSalida.isBefore(lote.getFechaRecepcion())) {
+            throw new IllegalArgumentException("La fecha de salida no puede ser anterior a la fecha de recepcion del lote.");
+        }
+
+        lote.setFechaSalidaLote(fechaSalida);
+        lote.setEstadoSanipes("APTO_EXPORTACION");
+        LotePesca saved = lotePescaRepository.save(lote);
+
+        try {
+            restTemplate.postForEntity(
+                certificacionServiceUrl + "/api/v1/bpm/procesos/lote/" + id + "/avanzar",
+                Map.of("etapa", "LISTO_PARA_DESPACHO", "observacion", "Fecha salida: " + fechaSalida.toString()),
+                Void.class
+            );
+        } catch (Exception e) {
+            // No bloquear si el BPM no responde
+        }
+
+        return saved;
     }
 
     public List<LotePesca> listarPorEspecieYEstado(String especie, String estado) {
