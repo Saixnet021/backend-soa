@@ -1,11 +1,12 @@
 package com.exporsan.lotes.model;
 
+import com.exporsan.audit.HasId;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "lote_chd")
-public class LotePesca {
+public class LotePesca implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +19,16 @@ public class LotePesca {
     private String especie;
 
     private String nombreEmbarcacion;
+
+    @Column(length = 20)
+    private String matriculaEmbarcacion;
+
+    private String capitanEmbarcacion;
+
+    private String empresaRazonSocial;
+
+    @Column(length = 11)
+    private String empresaRuc;
 
     private Double pesoKg;
 
@@ -60,6 +71,38 @@ public class LotePesca {
 
     public void setNombreEmbarcacion(String nombreEmbarcacion) {
         this.nombreEmbarcacion = nombreEmbarcacion;
+    }
+
+    public String getMatriculaEmbarcacion() {
+        return matriculaEmbarcacion;
+    }
+
+    public void setMatriculaEmbarcacion(String matriculaEmbarcacion) {
+        this.matriculaEmbarcacion = matriculaEmbarcacion;
+    }
+
+    public String getCapitanEmbarcacion() {
+        return capitanEmbarcacion;
+    }
+
+    public void setCapitanEmbarcacion(String capitanEmbarcacion) {
+        this.capitanEmbarcacion = capitanEmbarcacion;
+    }
+
+    public String getEmpresaRazonSocial() {
+        return empresaRazonSocial;
+    }
+
+    public void setEmpresaRazonSocial(String empresaRazonSocial) {
+        this.empresaRazonSocial = empresaRazonSocial;
+    }
+
+    public String getEmpresaRuc() {
+        return empresaRuc;
+    }
+
+    public void setEmpresaRuc(String empresaRuc) {
+        this.empresaRuc = empresaRuc;
     }
 
     public Double getPesoKg() {

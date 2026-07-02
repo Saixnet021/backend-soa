@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://exporsan.com/embarcaciones"
+           xmlns:emb="http://exporsan.com/embarcaciones"
+           elementFormDefault="qualified">
+
+    <xs:element name="ObtenerEmbarcacionesRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="idLote" type="xs:long" minOccurs="0"/>
+                <xs:element name="nombre" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ObtenerEmbarcacionesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="embarcaciones" type="emb:EmbarcacionType" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="EmbarcacionType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="nombreEmbarcacion" type="xs:string"/>
+            <xs:element name="matricula" type="xs:string"/>
+            <xs:element name="puertoBase" type="xs:string"/>
+            <xs:element name="capacidadToneladas" type="xs:decimal"/>
+            <xs:element name="estado" type="xs:string"/>
+            <xs:element name="nombreCapitan" type="xs:string"/>
+            <xs:element name="licenciaCapitan" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="RegistrarEmbarcacionRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="nombreEmbarcacion" type="xs:string"/>
+                <xs:element name="matricula" type="xs:string"/>
+                <xs:element name="puertoBase" type="xs:string"/>
+                <xs:element name="capacidadToneladas" type="xs:decimal"/>
+                <xs:element name="nombreCapitan" type="xs:string"/>
+                <xs:element name="licenciaCapitan" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="RegistrarEmbarcacionResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="mensaje" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ValidarEstadoEmbarcacionRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="matricula" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ValidarEstadoEmbarcacionResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="matricula" type="xs:string"/>
+                <xs:element name="nombreEmbarcacion" type="xs:string"/>
+                <xs:element name="puertoBase" type="xs:string"/>
+                <xs:element name="estado" type="xs:string"/>
+                <xs:element name="habilitada" type="xs:boolean"/>
+                <xs:element name="mensaje" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="FaultType">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="codigo" type="xs:string"/>
+                <xs:element name="mensaje" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

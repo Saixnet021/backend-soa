@@ -2,6 +2,7 @@ package com.exporsan.lotes.controller;
 
 import com.exporsan.lotes.model.LotePesca;
 import com.exporsan.lotes.service.LotePescaService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,36 +18,36 @@ public class LotePescaController {
         this.lotePescaService = lotePescaService;
     }
 
-    @GetMapping
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})
     public ResponseEntity<List<LotePesca>> listarTodos() {
         return ResponseEntity.ok(lotePescaService.listarTodos());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})
     public ResponseEntity<LotePesca> obtenerPorId(@PathVariable Long id) {
         return ResponseEntity.ok(lotePescaService.obtenerPorId(id));
     }
 
-    @PostMapping
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})
     public ResponseEntity<LotePesca> crearLote(@RequestBody LotePesca lote) {
         return ResponseEntity.ok(lotePescaService.crearLote(lote));
     }
 
-    @PutMapping("/{id}/estado-sanipes")
+    @PutMapping(value = "/{id}/estado-sanipes", produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})
     public ResponseEntity<LotePesca> actualizarEstadoSanipes(
             @PathVariable Long id,
             @RequestParam String estadoSanipes) {
         return ResponseEntity.ok(lotePescaService.actualizarEstadoSanipes(id, estadoSanipes));
     }
 
-    @PutMapping("/{id}/estado-cadena-frio")
+    @PutMapping(value = "/{id}/estado-cadena-frio", produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})
     public ResponseEntity<LotePesca> actualizarEstadoCadenaFrio(
             @PathVariable Long id,
             @RequestParam String estado) {
         return ResponseEntity.ok(lotePescaService.actualizarEstadoCadenaFrio(id, estado));
     }
 
-    @GetMapping("/especie/{especie}/estado/{estadoSanipes}")
+    @GetMapping(value = "/especie/{especie}/estado/{estadoSanipes}", produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})
     public ResponseEntity<List<LotePesca>> listarPorEspecieYEstado(
             @PathVariable String especie,
             @PathVariable String estadoSanipes) {

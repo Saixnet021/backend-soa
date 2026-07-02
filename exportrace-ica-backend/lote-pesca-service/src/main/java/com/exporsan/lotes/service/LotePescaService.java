@@ -1,5 +1,6 @@
 package com.exporsan.lotes.service;
 
+import com.exporsan.audit.Auditable;
 import com.exporsan.lotes.model.Especie;
 import com.exporsan.lotes.model.LotePesca;
 import com.exporsan.lotes.repository.EspecieRepository;
@@ -34,6 +35,7 @@ public class LotePescaService {
                 .orElseThrow(() -> new EntityNotFoundException("Lote no encontrado con id: " + id));
     }
 
+    @Auditable(accion = "CREAR_LOTE", entidad = "LotePesca")
     public LotePesca crearLote(LotePesca lote) {
         Especie especie = especieRepository.findByNombreComunIgnoreCase(lote.getEspecie())
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -50,12 +52,14 @@ public class LotePescaService {
         return lotePescaRepository.save(lote);
     }
 
+    @Auditable(accion = "ACTUALIZAR_ESTADO_SANIPES", entidad = "LotePesca")
     public LotePesca actualizarEstadoSanipes(Long id, String estadoSanipes) {
         LotePesca lote = obtenerPorId(id);
         lote.setEstadoSanipes(estadoSanipes);
         return lotePescaRepository.save(lote);
     }
 
+    @Auditable(accion = "ACTUALIZAR_CADENA_FRIO", entidad = "LotePesca")
     public LotePesca actualizarEstadoCadenaFrio(Long id, String estado) {
         LotePesca lote = obtenerPorId(id);
         lote.setEstadoCadenaFrio(estado);

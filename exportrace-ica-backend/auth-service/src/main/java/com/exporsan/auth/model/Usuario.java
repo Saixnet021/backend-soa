@@ -1,10 +1,11 @@
 package com.exporsan.auth.model;
 
+import com.exporsan.audit.HasId;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -76,6 +76,9 @@ export default function ExpedientePage() {
             <div><p className="text-xs text-muted-foreground">Código</p><p className="font-medium">{expediente.lote.codigoLote}</p></div>
             <div><p className="text-xs text-muted-foreground">Especie</p><p className="font-medium">{expediente.lote.especie}</p></div>
             <div><p className="text-xs text-muted-foreground">Embarcación</p><p className="font-medium">{expediente.lote.nombreEmbarcacion}</p></div>
+            <div><p className="text-xs text-muted-foreground">Matrícula</p><p className="font-medium">{expediente.lote.matriculaEmbarcacion || '—'}</p></div>
+            <div><p className="text-xs text-muted-foreground">Empresa</p><p className="font-medium">{expediente.lote.empresaRazonSocial || '—'}</p></div>
+            <div><p className="text-xs text-muted-foreground">RUC</p><p className="font-medium">{expediente.lote.empresaRuc || '—'}</p></div>
             <div><p className="text-xs text-muted-foreground">Peso</p><p className="font-medium">{expediente.lote.pesoKg} kg</p></div>
             <div><p className="text-xs text-muted-foreground">Recepción</p><p className="font-medium">{formatDate(expediente.lote.fechaRecepcion)}</p></div>
             <div><p className="text-xs text-muted-foreground">Estado SANIPES</p><Badge variant={expediente.lote.estadoSanipes === 'APTO_EXPORTACION' ? 'info' : 'success'}>{expediente.lote.estadoSanipes}</Badge></div>

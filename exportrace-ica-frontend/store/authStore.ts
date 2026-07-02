@@ -32,7 +32,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   loginAction: (token: string) => {
     const decoded = decodeJwt(token)
     const usuario: Usuario = {
-      id: 1,
+      id: decoded?.id || 1,
       username: decoded?.sub || '',
       rol: (decoded?.rol as Rol) || 'LOGISTICA',
     }

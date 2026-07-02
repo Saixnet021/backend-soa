@@ -105,9 +105,13 @@ export default function LoteDetallePage() {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <CardContent className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <div><p className="text-sm text-muted-foreground">Especie</p><p className="font-medium">{lote.especie}</p></div>
           <div><p className="text-sm text-muted-foreground">Embarcación</p><p className="font-medium">{lote.nombreEmbarcacion}</p></div>
+          <div><p className="text-sm text-muted-foreground">Matrícula</p><p className="font-medium">{lote.matriculaEmbarcacion || '—'}</p></div>
+          <div><p className="text-sm text-muted-foreground">Capitán</p><p className="font-medium">{lote.capitanEmbarcacion || '—'}</p></div>
+          <div><p className="text-sm text-muted-foreground">Empresa</p><p className="font-medium">{lote.empresaRazonSocial || '—'}</p></div>
+          <div><p className="text-sm text-muted-foreground">RUC</p><p className="font-medium">{lote.empresaRuc || '—'}</p></div>
           <div><p className="text-sm text-muted-foreground">Peso</p><p className="font-medium">{lote.pesoKg} kg</p></div>
           <div><p className="text-sm text-muted-foreground">Recepción</p><p className="font-medium">{formatDateTime(lote.fechaRecepcion)}</p></div>
         </CardContent>

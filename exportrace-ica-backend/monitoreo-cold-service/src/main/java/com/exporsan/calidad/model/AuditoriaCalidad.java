@@ -1,11 +1,12 @@
 package com.exporsan.calidad.model;
 
+import com.exporsan.audit.HasId;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "auditoria_calidad")
-public class AuditoriaCalidad {
+public class AuditoriaCalidad implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

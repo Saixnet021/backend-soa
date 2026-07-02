@@ -18,7 +18,7 @@ echo.
 
 :: ===== LIBERAR PUERTOS Y DETENER PROCESOS ANTERIORES =====
 echo [1/7] Liberando puertos de ejecuciones anteriores para evitar bloqueos...
-for %%p in (8080 8081 8082 8083 8090 3000) do (
+for %%p in (8080 8081 8082 8083 8084 8090 3000) do (
   for /f "tokens=5" %%a in ('netstat -ano 2^>nul ^| findstr ":%%p " ^| findstr "LISTENING"') do (
     taskkill /F /PID %%a >nul 2>&1
   )
@@ -77,7 +77,7 @@ echo  OK: MySQL conectado en localhost:3306
 :: ===== CREAR BASES DE DATOS MYSQL =====
 echo.
 echo [6/7] Verificando bases de datos MySQL...
-"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -uroot -proot -h localhost -e "CREATE DATABASE IF NOT EXISTS exporsan_auth; CREATE DATABASE IF NOT EXISTS exporsan_lotes; CREATE DATABASE IF NOT EXISTS exporsan_calidad; CREATE DATABASE IF NOT EXISTS exporsan_certificacion;" >nul 2>&1
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -uroot -proot -h localhost -e "CREATE DATABASE IF NOT EXISTS exporsan_auth; CREATE DATABASE IF NOT EXISTS exporsan_lotes; CREATE DATABASE IF NOT EXISTS exporsan_calidad; CREATE DATABASE IF NOT EXISTS exporsan_certificacion; CREATE DATABASE IF NOT EXISTS service_registry;" >nul 2>&1
 echo  OK: Bases de datos verificadas/creadas
 
 :: ===== VERIFICAR / COMPILAR BACKEND =====
@@ -85,7 +85,7 @@ echo.
 echo [7/7] Verificando compilacion de servicios Spring Boot...
 
 set "NEED_BUILD=0"
-for %%s in (auth-service lote-pesca-service monitoreo-cold-service certificacion-service api-gateway) do (
+for %%s in (auth-service lote-pesca-service monitoreo-cold-service certificacion-service service-registry api-gateway) do (
   set "FOUND_JAR="
   for %%f in ("%BACKEND_ROOT%\%%s\target\*.jar") do (
     set "FOUND_JAR=%%f"
@@ -120,6 +120,7 @@ call :start_service "auth-service"           8090
 call :start_service "lote-pesca-service"     8081
 call :start_service "monitoreo-cold-service" 8082
 call :start_service "certificacion-service"  8083
+call :start_service "service-registry"       8084
 call :start_service "api-gateway"            8080
 
 :: ===== ESPERAR ARRANQUE =====
@@ -134,6 +135,7 @@ call :check_service "auth-service"           8090
 call :check_service "lote-pesca-service"     8081
 call :check_service "monitoreo-cold-service" 8082
 call :check_service "certificacion-service"  8083
+call :check_service "service-registry"       8084
 call :check_service "api-gateway"            8080
 
 :: ===== INSTALAR / VERIFICAR FRONTEND =====
@@ -177,6 +179,7 @@ echo      Auth Service:           http://localhost:8090
 echo      Lote Pesca Service:     http://localhost:8081
 echo      Monitoreo Cold Service: http://localhost:8082
 echo      Certificacion Service:  http://localhost:8083
+echo      Service Registry:       http://localhost:8084
 echo.
 echo    Credenciales de prueba:
 echo      admin      / admin123      (ADMIN)

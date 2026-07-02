@@ -25,7 +25,7 @@ public class DataInitializer implements CommandLineRunner {
         if (especieRepository.count() == 0) {
             Especie pota = new Especie();
             pota.setCodigoSanipes("ESP-001");
-            pota.setNombreComun("Pota gigante");
+            pota.setNombreComun("POTA");
             pota.setNombreCientifico("Dosidicus gigas");
             pota.setTempMinCelsius(-18.0);
             pota.setTempMaxCelsius(-15.0);
@@ -34,7 +34,7 @@ public class DataInitializer implements CommandLineRunner {
 
             Especie perico = new Especie();
             perico.setCodigoSanipes("ESP-002");
-            perico.setNombreComun("Perico");
+            perico.setNombreComun("PERICO");
             perico.setNombreCientifico("Coryphaena hippurus");
             perico.setTempMinCelsius(-18.0);
             perico.setTempMaxCelsius(-14.0);
@@ -43,7 +43,7 @@ public class DataInitializer implements CommandLineRunner {
 
             Especie caballa = new Especie();
             caballa.setCodigoSanipes("ESP-005");
-            caballa.setNombreComun("Caballa");
+            caballa.setNombreComun("CABALLA");
             caballa.setNombreCientifico("Scomber japonicus");
             caballa.setTempMinCelsius(-19.0);
             caballa.setTempMaxCelsius(-15.0);
@@ -56,6 +56,10 @@ public class DataInitializer implements CommandLineRunner {
             lote1.setCodigoLote("LOT-2026-001");
             lote1.setEspecie("POTA");
             lote1.setNombreEmbarcacion("San Pedro I");
+            lote1.setMatriculaEmbarcacion("PSI-0142");
+            lote1.setCapitanEmbarcacion("Juan Quispe Ramos");
+            lote1.setEmpresaRazonSocial("Pesquera San Pedro S.A.C.");
+            lote1.setEmpresaRuc("20567891234");
             lote1.setPesoKg(1500.0);
             lote1.setFechaRecepcion(LocalDateTime.of(2026, 6, 15, 10, 30));
             lote1.setEstadoSanipes("APROBADO");
@@ -66,6 +70,10 @@ public class DataInitializer implements CommandLineRunner {
             lote2.setCodigoLote("LOT-2026-002");
             lote2.setEspecie("POTA");
             lote2.setNombreEmbarcacion("Don Aurelio");
+            lote2.setMatriculaEmbarcacion("DAU-2201");
+            lote2.setCapitanEmbarcacion("Carlos Salazar Paredes");
+            lote2.setEmpresaRazonSocial("Mariscos del Sur S.A.C.");
+            lote2.setEmpresaRuc("20612345678");
             lote2.setPesoKg(3000.0);
             lote2.setFechaRecepcion(LocalDateTime.of(2026, 6, 20, 8, 15));
             lote2.setEstadoSanipes("PENDIENTE");
@@ -76,6 +84,10 @@ public class DataInitializer implements CommandLineRunner {
             lote3.setCodigoLote("LOT-2026-003");
             lote3.setEspecie("PERICO");
             lote3.setNombreEmbarcacion("Luz Marina");
+            lote3.setMatriculaEmbarcacion("LZM-0907");
+            lote3.setCapitanEmbarcacion("Miguel Torres Luna");
+            lote3.setEmpresaRazonSocial("Productos Hidrobiologicos Ica E.I.R.L.");
+            lote3.setEmpresaRuc("20456789123");
             lote3.setPesoKg(800.0);
             lote3.setFechaRecepcion(LocalDateTime.of(2026, 6, 22, 14, 0));
             lote3.setEstadoSanipes("PENDIENTE");
@@ -86,6 +98,10 @@ public class DataInitializer implements CommandLineRunner {
             lote4.setCodigoLote("LOT-2026-004");
             lote4.setEspecie("PERICO");
             lote4.setNombreEmbarcacion("El Vikingo");
+            lote4.setMatriculaEmbarcacion("EVK-4410");
+            lote4.setCapitanEmbarcacion("Roberto Pizarro Leon");
+            lote4.setEmpresaRazonSocial("Pesquera El Vikingo S.A.");
+            lote4.setEmpresaRuc("20123456789");
             lote4.setPesoKg(2000.0);
             lote4.setFechaRecepcion(LocalDateTime.of(2026, 6, 25, 9, 45));
             lote4.setEstadoSanipes("APTO_EXPORTACION");
@@ -96,6 +112,10 @@ public class DataInitializer implements CommandLineRunner {
             lote5.setCodigoLote("LOT-2026-005");
             lote5.setEspecie("CABALLA");
             lote5.setNombreEmbarcacion("Santa Rosa");
+            lote5.setMatriculaEmbarcacion("SR-1155");
+            lote5.setCapitanEmbarcacion("Alfredo Cárdenas Ruiz");
+            lote5.setEmpresaRazonSocial("Pesqueria Santa Rosa del Mar S.A.C.");
+            lote5.setEmpresaRuc("20555111222");
             lote5.setPesoKg(4500.0);
             lote5.setFechaRecepcion(LocalDateTime.of(2026, 6, 28, 7, 0));
             lote5.setEstadoSanipes("PENDIENTE");

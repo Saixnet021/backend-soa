@@ -1,10 +1,11 @@
 package com.exporsan.lotes.model;
 
+import com.exporsan.audit.HasId;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "especie")
-public class Especie {
+public class Especie implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

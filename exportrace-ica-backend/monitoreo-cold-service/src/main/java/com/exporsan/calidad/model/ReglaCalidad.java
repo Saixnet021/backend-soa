@@ -1,10 +1,11 @@
 package com.exporsan.calidad.model;
 
+import com.exporsan.audit.HasId;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "regla_calidad")
-public class ReglaCalidad {
+public class ReglaCalidad implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

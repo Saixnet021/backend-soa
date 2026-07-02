@@ -10,7 +10,11 @@ spring:
         - id: auth-service
           uri: http://localhost:8090
           predicates:
-            - Path=/api/v1/auth/**
+            - Path=/api/v1/auth/**,/api/v1/usuarios/**
+        - id: auditoria-service
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/v1/auditoria/**
         - id: lote-pesca-service
           uri: http://localhost:8081
           predicates:
@@ -22,7 +26,15 @@ spring:
         - id: certificacion-service
           uri: http://localhost:8083
           predicates:
-            - Path=/api/v1/orch/**,/api/v1/tramites/**
+            - Path=/api/v1/orch/**,/api/v1/tramites/**,/api/v1/bpm/**
+        - id: service-registry
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/v1/registry/**
+        - id: soap-embarcaciones
+          uri: http://localhost:8081
+          predicates:
+            - Path=/ws/**
 
 jwt:
   secret: ${JWT_SECRET:exporsan-ica-secret-jwt-security-key-2026-v1}

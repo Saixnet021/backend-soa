@@ -26,7 +26,8 @@ export default function LotesPage() {
   }, [])
 
   const filtered = lotes.filter(l => {
-    const matchSearch = !search || l.codigoLote.toLowerCase().includes(search.toLowerCase()) || l.especie.toLowerCase().includes(search.toLowerCase())
+    const searchText = search.toLowerCase()
+    const matchSearch = !search || l.codigoLote.toLowerCase().includes(searchText) || l.especie.toLowerCase().includes(searchText) || l.nombreEmbarcacion.toLowerCase().includes(searchText) || (l.empresaRazonSocial || '').toLowerCase().includes(searchText) || (l.empresaRuc || '').toLowerCase().includes(searchText)
     const matchEstado = !filtroEstado || l.estadoSanipes === filtroEstado
     const matchFrio = !filtroFrio || l.estadoCadenaFrio === filtroFrio
     return matchSearch && matchEstado && matchFrio
@@ -69,7 +70,7 @@ export default function LotesPage() {
           <TableRow>
             <TableHead>Código</TableHead>
             <TableHead>Especie</TableHead>
-            <TableHead>Embarcación</TableHead>
+            <TableHead>Embarcación y Empresa</TableHead>
             <TableHead>Peso</TableHead>
             <TableHead>Cadena Frío</TableHead>
             <TableHead>SANIPES</TableHead>
@@ -81,7 +82,13 @@ export default function LotesPage() {
             <TableRow key={l.id}>
               <TableCell className="font-medium">{l.codigoLote}</TableCell>
               <TableCell>{l.especie}</TableCell>
-              <TableCell>{l.nombreEmbarcacion}</TableCell>
+              <TableCell>
+                <div className="flex flex-col">
+                  <span className="font-medium">{l.nombreEmbarcacion}</span>
+                  <span className="text-xs text-muted-foreground">{l.empresaRazonSocial || 'Empresa no registrada'}</span>
+                  <span className="text-xs text-muted-foreground">RUC: {l.empresaRuc || '—'} | Matrícula: {l.matriculaEmbarcacion || '—'}</span>
+                </div>
+              </TableCell>
               <TableCell>{l.pesoKg} kg</TableCell>
               <TableCell>{badgeFrio(l.estadoCadenaFrio)}</TableCell>
               <TableCell>{badgeSanipes(l.estadoSanipes)}</TableCell>

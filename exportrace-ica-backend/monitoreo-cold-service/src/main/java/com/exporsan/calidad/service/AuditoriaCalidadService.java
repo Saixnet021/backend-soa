@@ -1,5 +1,6 @@
 package com.exporsan.calidad.service;
 
+import com.exporsan.audit.Auditable;
 import com.exporsan.calidad.dto.ResumenFrioDTO;
 import com.exporsan.calidad.model.AuditoriaCalidad;
 import com.exporsan.calidad.model.ReglaCalidad;
@@ -32,6 +33,7 @@ public class AuditoriaCalidadService {
         this.restTemplate = restTemplate;
     }
 
+    @Auditable(accion = "REGISTRAR_TEMPERATURA", entidad = "AuditoriaCalidad")
     @SuppressWarnings("unchecked")
     public AuditoriaCalidad registrarTemperatura(AuditoriaCalidad auditoria) {
         if (auditoria.getIdLote() == null) {
@@ -42,38 +44,42 @@ public class AuditoriaCalidadService {
             auditoria.setTimestampMedicion(LocalDateTime.now());
         }
 
-        Map<String, Object> lote = restTemplate.getForObject(
-                loteServiceUrl + "/api/v1/adaptadores/sip/lotes/" + auditoria.getIdLote(),
-                Map.class
-        );
-
-        if (lote == null) {
-            throw new EntityNotFoundException("Lote no encontrado: " + auditoria.getIdLote());
+        String codigoEspecie = null;
+        try {
+            Map<String, Object> lote = restTemplate.getForObject(
+                    loteServiceUrl + "/api/v1/adaptadores/sip/lotes/" + auditoria.getIdLote(),
+                    Map.class
+            );
+            if (lote != null) {
+                codigoEspecie = (String) lote.get("especie");
+            }
+        } catch (Exception e) {
+            // Continuar sin validar lote si el servicio no esta disponible
         }
-
-        String codigoEspecie = (String) lote.get("especie");
-
-        ReglaCalidad regla = reglaCalidadRepository.findByCodigoEspecie(codigoEspecie)
-                .orElse(null);
 
         AuditoriaCalidad saved = auditoriaCalidadRepository.save(auditoria);
 
-        if (regla != null) {
-            Double temp = auditoria.getTemperaturaCelsius();
-            String estado;
-
-            if (temp < regla.getTempMinAlerta() - 5 || temp > regla.getTempMaxAlerta() + 5) {
-                estado = "RUPTURA";
-            } else if (temp < regla.getTempMinAlerta() || temp > regla.getTempMaxAlerta()) {
-                estado = "ALERTA";
-            } else {
-                estado = "OK";
+        if (codigoEspecie != null) {
+            ReglaCalidad regla = reglaCalidadRepository.findByCodigoEspecie(codigoEspecie).orElse(null);
+            if (regla != null) {
+                Double temp = auditoria.getTemperaturaCelsius();
+                String estado;
+                if (temp < regla.getTempMinAlerta() - 5 || temp > regla.getTempMaxAlerta() + 5) {
+                    estado = "RUPTURA";
+                } else if (temp < regla.getTempMinAlerta() || temp > regla.getTempMaxAlerta()) {
+                    estado = "ALERTA";
+                } else {
+                    estado = "OK";
+                }
+                try {
+                    restTemplate.put(
+                            loteServiceUrl + "/api/v1/adaptadores/sip/lotes/" + auditoria.getIdLote() + "/estado-cadena-frio?estado=" + estado,
+                            null
+                    );
+                } catch (Exception e) {
+                    // Ignorar si lote-service no esta disponible
+                }
             }
-
-            restTemplate.put(
-                    loteServiceUrl + "/api/v1/adaptadores/sip/lotes/" + auditoria.getIdLote() + "/estado-cadena-frio?estado=" + estado,
-                    null
-            );
         }
 
         return saved;
@@ -81,6 +87,10 @@ public class AuditoriaCalidadService {
 
     public List<AuditoriaCalidad> listarPorLote(Long idLote) {
         return auditoriaCalidadRepository.findByIdLoteOrderByTimestampMedicionDesc(idLote);
+    }
+
+    public List<AuditoriaCalidad> listarTodas() {
+        return auditoriaCalidadRepository.findAll();
     }
 
     @SuppressWarnings("unchecked")

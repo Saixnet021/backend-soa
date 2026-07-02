@@ -9,11 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-@Component
 public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
     private final JwtService jwtService;
@@ -30,7 +28,9 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         // Dejar pasar preflight CORS y rutas públicas sin JWT
         if (request.getMethod().name().equalsIgnoreCase("OPTIONS") ||
             path.startsWith("/api/v1/auth/login") ||
-            path.startsWith("/api/v1/auth/test")) {
+            path.startsWith("/api/v1/auth/test") ||
+            path.startsWith("/gateway/status") ||
+            path.startsWith("/api/v1/registry")) {
             return chain.filter(exchange);
         }
 

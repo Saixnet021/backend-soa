@@ -116,6 +116,7 @@ export default function DashboardPage() {
                   <Badge variant={l.estadoCadenaFrio === 'RUPTURA' ? 'danger' : 'warning'}>{l.estadoCadenaFrio}</Badge>
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">{l.especie} — {l.nombreEmbarcacion}</p>
+                <p className="text-[11px] text-muted-foreground">{l.empresaRazonSocial || 'Empresa no registrada'} · RUC {l.empresaRuc || '—'}</p>
               </div>
             ))}
           </CardContent>

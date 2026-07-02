@@ -1,5 +1,6 @@
 package com.exporsan.lotes.service;
 
+import com.exporsan.audit.Auditable;
 import com.exporsan.lotes.model.Especie;
 import com.exporsan.lotes.repository.EspecieRepository;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class EspecieService {
                 .orElseThrow(() -> new EntityNotFoundException("Especie no encontrada con id: " + id));
     }
 
+    @Auditable(accion = "ACTUALIZAR_VEDA", entidad = "Especie")
     public Especie actualizarVeda(Long id, Boolean enVeda) {
         Especie especie = obtenerPorId(id);
         especie.setEnVeda(enVeda);

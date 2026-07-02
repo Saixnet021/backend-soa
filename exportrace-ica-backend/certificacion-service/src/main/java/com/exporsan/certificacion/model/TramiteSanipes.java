@@ -1,11 +1,12 @@
 package com.exporsan.certificacion.model;
 
+import com.exporsan.audit.HasId;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tramite_sanipes")
-public class TramiteSanipes {
+public class TramiteSanipes implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

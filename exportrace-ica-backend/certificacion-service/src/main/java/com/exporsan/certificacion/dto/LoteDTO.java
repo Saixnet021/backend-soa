@@ -6,6 +6,10 @@ public class LoteDTO {
     private String codigoLote;
     private String especie;
     private String nombreEmbarcacion;
+    private String matriculaEmbarcacion;
+    private String capitanEmbarcacion;
+    private String empresaRazonSocial;
+    private String empresaRuc;
     private Double pesoKg;
     private String estadoSanipes;
     private String estadoCadenaFrio;
@@ -24,6 +28,18 @@ public class LoteDTO {
 
     public String getNombreEmbarcacion() { return nombreEmbarcacion; }
     public void setNombreEmbarcacion(String nombreEmbarcacion) { this.nombreEmbarcacion = nombreEmbarcacion; }
+
+    public String getMatriculaEmbarcacion() { return matriculaEmbarcacion; }
+    public void setMatriculaEmbarcacion(String matriculaEmbarcacion) { this.matriculaEmbarcacion = matriculaEmbarcacion; }
+
+    public String getCapitanEmbarcacion() { return capitanEmbarcacion; }
+    public void setCapitanEmbarcacion(String capitanEmbarcacion) { this.capitanEmbarcacion = capitanEmbarcacion; }
+
+    public String getEmpresaRazonSocial() { return empresaRazonSocial; }
+    public void setEmpresaRazonSocial(String empresaRazonSocial) { this.empresaRazonSocial = empresaRazonSocial; }
+
+    public String getEmpresaRuc() { return empresaRuc; }
+    public void setEmpresaRuc(String empresaRuc) { this.empresaRuc = empresaRuc; }
 
     public Double getPesoKg() { return pesoKg; }
     public void setPesoKg(Double pesoKg) { this.pesoKg = pesoKg; }

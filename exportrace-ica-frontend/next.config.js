@@ -18,6 +18,24 @@ const withPWA = require('next-pwa')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  async headers() {
+    return [
+      {
+        source: '/ws/:path*',
+        headers: [
+          { key: 'Content-Type', value: 'text/xml; charset=utf-8' },
+        ],
+      },
+    ]
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/ws',
+        destination: 'http://localhost:8081/ws',
+      },
+    ]
+  },
 }
 
 module.exports = withPWA(nextConfig)

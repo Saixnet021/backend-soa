@@ -22,6 +22,6 @@ export async function getEspecies(): Promise<Especie[]> {
 }
 
 export async function actualizarVedaEspecie(id: number, enVeda: boolean): Promise<Especie> {
-  const { data } = await api.put<Especie>(`/api/v1/maestros/especies/${id}/edav?enVeda=${enVeda}`)
+  const { data } = await api.put<Especie>(`/api/v1/maestros/especies/${id}/veda?enVeda=${enVeda}`)
   return data
 }

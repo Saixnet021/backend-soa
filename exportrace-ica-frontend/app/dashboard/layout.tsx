@@ -1,12 +1,11 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Sidebar from '@/components/layout/Sidebar'
 import Topbar from '@/components/layout/Topbar'
 import MobileNav from '@/components/layout/MobileNav'
 import { Toaster } from 'sonner'
 import { useAuthStore } from '@/store/authStore'
-import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 const pageTitles: Record<string, string> = {
@@ -18,22 +17,30 @@ const pageTitles: Record<string, string> = {
   '/dashboard/certificaciones': 'Certificaciones',
   '/dashboard/especies': 'Especies',
   '/dashboard/usuarios': 'Usuarios',
+  '/dashboard/arquitectura': 'Arquitectura SOA',
 }
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
-  const { isAuthenticated, token } = useAuthStore()
+  const token = useAuthStore((state) => state.token)
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     const t = token || localStorage.getItem('token')
     if (!t) {
-      router.push('/login')
+      router.replace('/login')
+      return
     }
-  }, [token, isAuthenticated, router])
+    setReady(true)
+  }, [token, router])
 
-  if (!token && typeof window !== 'undefined' && !localStorage.getItem('token')) {
-    return null
+  if (!ready) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-background text-slate-500">
+        Cargando...
+      </div>
+    )
   }
 
   const basePath = '/' + pathname.split('/').slice(1, 3).join('/')

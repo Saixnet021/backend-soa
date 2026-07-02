@@ -4,6 +4,7 @@ import com.exporsan.calidad.dto.ResumenFrioDTO;
 import com.exporsan.calidad.model.AuditoriaCalidad;
 import com.exporsan.calidad.service.AuditoriaCalidadService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +20,22 @@ public class AuditoriaCalidadController {
         this.auditoriaCalidadService = auditoriaCalidadService;
     }
 
-    @PostMapping("/temperaturas")
+    @PostMapping(value = "/temperaturas", produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})
     public ResponseEntity<AuditoriaCalidad> registrarTemperatura(@RequestBody AuditoriaCalidad auditoria) {
         return ResponseEntity.status(HttpStatus.CREATED).body(auditoriaCalidadService.registrarTemperatura(auditoria));
     }
 
-    @GetMapping("/temperaturas/lote/{idLote}")
+    @GetMapping(value = "/temperaturas", produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})
+    public ResponseEntity<List<AuditoriaCalidad>> listarTodas() {
+        return ResponseEntity.ok(auditoriaCalidadService.listarTodas());
+    }
+
+    @GetMapping(value = "/temperaturas/lote/{idLote}", produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})
     public ResponseEntity<List<AuditoriaCalidad>> listarPorLote(@PathVariable Long idLote) {
         return ResponseEntity.ok(auditoriaCalidadService.listarPorLote(idLote));
     }
 
-    @GetMapping("/temperaturas/lote/{idLote}/resumen")
+    @GetMapping(value = "/temperaturas/lote/{idLote}/resumen", produces = {MediaType.APPLICATION_JSON_VALUE, "application/xml"})
     public ResponseEntity<ResumenFrioDTO> obtenerResumenFrio(@PathVariable Long idLote) {
         return ResponseEntity.ok(auditoriaCalidadService.obtenerResumenFrio(idLote));
     }

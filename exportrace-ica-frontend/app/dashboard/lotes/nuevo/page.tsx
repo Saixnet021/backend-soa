@@ -19,6 +19,10 @@ const schema = z.object({
   codigoLote: z.string().min(1, 'Código requerido').regex(/^LOT-\d{4}-\d{3,}$/, 'Formato: LOT-YYYY-NNN'),
   especie: z.string().min(1, 'Selecciona una especie'),
   nombreEmbarcacion: z.string().min(1, 'Embarcación requerida'),
+  matriculaEmbarcacion: z.string().min(1, 'Matrícula requerida'),
+  capitanEmbarcacion: z.string().min(1, 'Capitán requerido'),
+  empresaRazonSocial: z.string().min(1, 'Razón social requerida'),
+  empresaRuc: z.string().min(11, 'RUC requerido').max(11, 'El RUC debe tener 11 dígitos'),
   pesoKg: z.coerce.number().positive('Debe ser > 0'),
   fechaRecepcion: z.string().min(1, 'Fecha requerida'),
 })
@@ -90,6 +94,30 @@ export default function NuevoLotePage() {
               <label className="text-sm font-medium">Embarcación</label>
               <Input {...register('nombreEmbarcacion')} placeholder="Nombre de la embarcación" />
               {errors.nombreEmbarcacion && <p className="text-xs text-danger mt-1">{errors.nombreEmbarcacion.message}</p>}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium">Matrícula de embarcación</label>
+                <Input {...register('matriculaEmbarcacion')} placeholder="Ej: PIS-0142" />
+                {errors.matriculaEmbarcacion && <p className="text-xs text-danger mt-1">{errors.matriculaEmbarcacion.message}</p>}
+              </div>
+              <div>
+                <label className="text-sm font-medium">Capitán</label>
+                <Input {...register('capitanEmbarcacion')} placeholder="Nombre del capitán" />
+                {errors.capitanEmbarcacion && <p className="text-xs text-danger mt-1">{errors.capitanEmbarcacion.message}</p>}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium">Razón social de la empresa</label>
+                <Input {...register('empresaRazonSocial')} placeholder="Pesquera Ejemplo S.A.C." />
+                {errors.empresaRazonSocial && <p className="text-xs text-danger mt-1">{errors.empresaRazonSocial.message}</p>}
+              </div>
+              <div>
+                <label className="text-sm font-medium">RUC de la empresa</label>
+                <Input {...register('empresaRuc')} placeholder="20512345678" />
+                {errors.empresaRuc && <p className="text-xs text-danger mt-1">{errors.empresaRuc.message}</p>}
+              </div>
             </div>
             <div>
               <label className="text-sm font-medium">Peso (kg)</label>

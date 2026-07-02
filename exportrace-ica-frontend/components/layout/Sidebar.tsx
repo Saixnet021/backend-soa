@@ -1,13 +1,14 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Fish, LayoutDashboard, Thermometer, FileCheck, BookOpen, Users } from 'lucide-react'
+import { Fish, LayoutDashboard, Thermometer, FileCheck, BookOpen, Users, Layers3 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
 import { useState } from 'react'
 
 const menuItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['ADMIN', 'QA', 'LOGISTICA', 'TI'] },
+  { href: '/dashboard/arquitectura', label: 'Arquitectura SOA', icon: Layers3, roles: ['ADMIN', 'QA', 'LOGISTICA', 'TI'] },
   { href: '/dashboard/lotes', label: 'Lotes', icon: Fish, roles: ['ADMIN', 'QA', 'LOGISTICA'] },
   { href: '/dashboard/calidad', label: 'Calidad', icon: Thermometer, roles: ['ADMIN', 'QA'] },
   { href: '/dashboard/certificaciones', label: 'Certificaciones', icon: FileCheck, roles: ['ADMIN', 'QA', 'LOGISTICA'] },

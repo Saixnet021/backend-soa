@@ -15,11 +15,11 @@ export function formatDateTime(dateStr: string): string {
   return d.toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
 }
 
-export function decodeJwt(token: string): { sub: string; rol: string } | null {
+export function decodeJwt(token: string): { sub: string; rol: string; id?: number } | null {
   try {
     const payload = token.split('.')[1]
     const decoded = JSON.parse(atob(payload))
-    return { sub: decoded.sub, rol: decoded.rol }
+    return { sub: decoded.sub, rol: decoded.rol, id: decoded.id }
   } catch {
     return null
   }

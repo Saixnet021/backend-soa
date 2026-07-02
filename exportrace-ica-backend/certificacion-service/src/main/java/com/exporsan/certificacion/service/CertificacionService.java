@@ -1,5 +1,6 @@
 package com.exporsan.certificacion.service;
 
+import com.exporsan.audit.Auditable;
 import com.exporsan.certificacion.dto.*;
 import com.exporsan.certificacion.model.TramiteSanipes;
 import com.exporsan.certificacion.repository.TramiteSanipesRepository;
@@ -31,6 +32,7 @@ public class CertificacionService {
         this.restTemplate = restTemplate;
     }
 
+    @Auditable(accion = "SOLICITAR_CERTIFICADO", entidad = "TramiteSanipes")
     public TramiteSanipesDTO orquestarTramite(Long idLote) {
         LoteDTO lote;
         try {
@@ -91,6 +93,7 @@ public class CertificacionService {
         return dto;
     }
 
+    @Auditable(accion = "GENERAR_EXPEDIENTE", entidad = "ExpedienteCertificado")
     public ExpedienteDTO obtenerExpediente(Long idLote) {
         LoteDTO lote = null;
         try {

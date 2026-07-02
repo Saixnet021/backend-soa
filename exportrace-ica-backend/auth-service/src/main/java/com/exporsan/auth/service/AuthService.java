@@ -1,5 +1,6 @@
 package com.exporsan.auth.service;
 
+import com.exporsan.audit.Auditable;
 import com.exporsan.auth.dto.ValidateResponse;
 import com.exporsan.auth.model.Usuario;
 import com.exporsan.auth.repository.UsuarioRepository;
@@ -24,6 +25,7 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
+    @Auditable(accion = "LOGIN", entidad = "Usuario")
     public String login(String username, String password) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findByUsername(username);
         if (optionalUsuario.isEmpty()) {
