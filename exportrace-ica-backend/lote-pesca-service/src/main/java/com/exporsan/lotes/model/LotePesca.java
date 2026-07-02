@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 @Entity
 @Table(name = "lote_chd")
 public class LotePesca implements HasId {
@@ -41,12 +43,24 @@ public class LotePesca implements HasId {
     @Column(nullable = true)
     private LocalDateTime fechaSalidaLote;
 
+    @Transient
+    private String nombreEmbarcacionInput;
+
+    @Transient
+    private String empresaRucInput;
+
     public LotePesca() {
     }
 
     @JsonProperty("nombreEmbarcacion")
     public String getNombreEmbarcacion() {
-        return embarcacion != null ? embarcacion.getNombreEmbarcacion() : null;
+        if (embarcacion != null) return embarcacion.getNombreEmbarcacion();
+        return nombreEmbarcacionInput;
+    }
+
+    @JsonSetter("nombreEmbarcacion")
+    public void setNombreEmbarcacion(String nombre) {
+        this.nombreEmbarcacionInput = nombre;
     }
 
     @JsonProperty("matriculaEmbarcacion")
@@ -71,7 +85,13 @@ public class LotePesca implements HasId {
 
     @JsonProperty("empresaRuc")
     public String getEmpresaRuc() {
-        return empresa != null ? empresa.getRuc() : null;
+        if (empresa != null) return empresa.getRuc();
+        return empresaRucInput;
+    }
+
+    @JsonSetter("empresaRuc")
+    public void setEmpresaRuc(String ruc) {
+        this.empresaRucInput = ruc;
     }
 
     @JsonProperty("idEmpresa")
