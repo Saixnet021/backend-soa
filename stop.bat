@@ -13,18 +13,27 @@ echo.
 echo [1/3] Deteniendo microservicios Spring Boot...
 
 set JAVA_KILLED=0
-for /f "tokens=1" %%p in ('tasklist /fi "imagename eq java.exe" /fo csv /nh 2^>nul ^| findstr /i "java"') do (
-  set "RAW=%%p"
-  set "PID=!RAW:"=!"
-  taskkill /F /PID !PID! >nul 2>&1
-  if not errorlevel 1 (
-    echo  OK: Proceso Java PID !PID! detenido
-    set /a JAVA_KILLED+=1
+for %%e in (java.exe javaw.exe) do (
+  for /f "tokens=1" %%p in ('tasklist /fi "imagename eq %%e" /fo csv /nh 2^>nul ^| findstr /i "%%e"') do (
+    set "RAW=%%p"
+    set "PID=!RAW:"=!"
+    taskkill /F /PID !PID! >nul 2>&1
+    if not errorlevel 1 (
+      echo  OK: Proceso %%e PID !PID! detenido
+      set /a JAVA_KILLED+=1
+    )
+  )
+)
+
+:: Tambien matar por puertos conocidos como respaldo
+for %%p in (8080 8081 8082 8083 8084 8090) do (
+  for /f "tokens=5" %%a in ('netstat -ano 2^>nul ^| findstr ":%%p " ^| findstr "LISTENING"') do (
+    taskkill /F /PID %%a >nul 2>&1
   )
 )
 
 if %JAVA_KILLED%==0 (
-  echo  INFO: No habia procesos Java corriendo
+  echo  INFO: No se detectaron procesos Java por nombre, se intento por puertos
 ) else (
   echo  OK: %JAVA_KILLED% proceso^(s^) Java detenido^(s^)
 )
