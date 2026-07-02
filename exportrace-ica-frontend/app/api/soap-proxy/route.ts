@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const SOAP_BACKEND = process.env.NEXT_PUBLIC_API_URL
-  ? `${process.env.NEXT_PUBLIC_API_URL}/ws/`
-  : 'http://localhost:8081/ws/';
+const SOAP_BACKEND = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/ws/`;
 
 export async function POST(request: NextRequest) {
   try {

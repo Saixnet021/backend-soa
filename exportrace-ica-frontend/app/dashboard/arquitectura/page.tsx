@@ -58,10 +58,17 @@ interface BpmProcess {
   fechaFin: string;
 }
 
+const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+const AUTH_URL = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:8090';
+const LOTE_URL = process.env.NEXT_PUBLIC_LOTE_URL || 'http://localhost:8081';
+const MONITOREO_URL = process.env.NEXT_PUBLIC_MONITOREO_URL || 'http://localhost:8082';
+const CERTIFICACION_URL = process.env.NEXT_PUBLIC_CERTIFICACION_URL || 'http://localhost:8083';
+const REGISTRY_URL = process.env.NEXT_PUBLIC_REGISTRY_URL || 'http://localhost:8084';
+
 const SERVICIOS: ServiceInfo[] = [
   {
     nombre: 'API Gateway',
-    url: 'http://localhost:8080',
+    url: GATEWAY_URL,
     puerto: 8080,
     estado: 'ACTIVO',
     tipo: 'Gateway',
@@ -71,7 +78,7 @@ const SERVICIOS: ServiceInfo[] = [
   },
   {
     nombre: 'Auth Service',
-    url: 'http://localhost:8090',
+    url: AUTH_URL,
     puerto: 8090,
     estado: 'ACTIVO',
     tipo: 'Seguridad',
@@ -81,7 +88,7 @@ const SERVICIOS: ServiceInfo[] = [
   },
   {
     nombre: 'Lote Pesca Service',
-    url: 'http://localhost:8081',
+    url: LOTE_URL,
     puerto: 8081,
     estado: 'ACTIVO',
     tipo: 'Dominio',
@@ -91,7 +98,7 @@ const SERVICIOS: ServiceInfo[] = [
   },
   {
     nombre: 'Monitoreo Cold Service',
-    url: 'http://localhost:8082',
+    url: MONITOREO_URL,
     puerto: 8082,
     estado: 'ACTIVO',
     tipo: 'Monitoreo',
@@ -101,7 +108,7 @@ const SERVICIOS: ServiceInfo[] = [
   },
   {
     nombre: 'Certificación Service',
-    url: 'http://localhost:8083',
+    url: CERTIFICACION_URL,
     puerto: 8083,
     estado: 'ACTIVO',
     tipo: 'Orquestación',
@@ -111,7 +118,7 @@ const SERVICIOS: ServiceInfo[] = [
   },
   {
     nombre: 'Service Registry',
-    url: 'http://localhost:8084',
+    url: REGISTRY_URL,
     puerto: 8084,
     estado: 'ACTIVO',
     tipo: 'UDDI',
@@ -191,7 +198,7 @@ export default function ArquitecturaSOAPage() {
       const text = await response.text();
       setSoapResponse(text);
     } catch (error) {
-      setSoapResponse('Error de conexion. Verifique que el servicio SOAP este activo en puerto 8081.');
+      setSoapResponse('Error de conexion. Verifique que el servicio SOAP este activo.');
     } finally {
       setSoapLoading(false);
     }
@@ -310,7 +317,7 @@ export default function ArquitecturaSOAPage() {
           <Card>
             <CardHeader>
               <CardTitle>Endpoint SOAP/WSDL</CardTitle>
-              <CardDescription>WSDL Disponible en: http://localhost:8081/ws/EmbarcacionesPort.wsdl</CardDescription>
+              <CardDescription>WSDL Disponible en: {LOTE_URL}/ws/EmbarcacionesPort.wsdl</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-3 gap-4">

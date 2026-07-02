@@ -1,17 +1,35 @@
 'use client'
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { useAuthStore } from '@/store/authStore'
-import { getLotes } from '@/lib/api/lotes'
-import type { LotePesca, EstadoSanipes, EstadoCadenaFrio } from '@/types'
-import { LOTES_MOCK } from '@/types'
+import { getLotes, getEspecies, crearLote } from '@/lib/api/lotes'
+import type { LotePesca, EstadoSanipes, EstadoCadenaFrio, Especie } from '@/types'
+import { LOTES_MOCK, ESPECIES_MOCK } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Eye, Plus, Search } from 'lucide-react'
+import { Eye, Plus, Search, X } from 'lucide-react'
+import Link from 'next/link'
+import { toast } from 'sonner'
+
+const schema = z.object({
+  codigoLote: z.string().min(1, 'Código requerido').regex(/^LOT-\d{4}-\d{3,}$/, 'Formato: LOT-YYYY-NNN'),
+  especie: z.string().min(1, 'Selecciona una especie'),
+  nombreEmbarcacion: z.string().min(1, 'Embarcación requerida'),
+  matriculaEmbarcacion: z.string().min(1, 'Matrícula requerida'),
+  capitanEmbarcacion: z.string().min(1, 'Capitán requerido'),
+  empresaRazonSocial: z.string().min(1, 'Razón social requerida'),
+  empresaRuc: z.string().min(11, 'RUC requerido').max(11, 'El RUC debe tener 11 dígitos'),
+  pesoKg: z.coerce.number().positive('Debe ser > 0'),
+  fechaRecepcion: z.string().min(1, 'Fecha requerida'),
+})
+
+type FormData = z.infer<typeof schema>
 
 export default function LotesPage() {
   const [lotes, setLotes] = useState<LotePesca[]>(LOTES_MOCK)
@@ -19,11 +37,27 @@ export default function LotesPage() {
   const [search, setSearch] = useState('')
   const [filtroEstado, setFiltroEstado] = useState('')
   const [filtroFrio, setFiltroFrio] = useState('')
+  const [showModal, setShowModal] = useState(false)
+  const [especies, setEspecies] = useState<Especie[]>(ESPECIES_MOCK)
+  const [especieSeleccionada, setEspecieSeleccionada] = useState<Especie | null>(null)
   const usuario = useAuthStore(s => s.usuario)
+
+  const { register, handleSubmit, watch, reset, formState: { errors, isSubmitting } } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { fechaRecepcion: new Date().toISOString().slice(0, 16) }
+  })
+
+  const especieWatch = watch('especie')
 
   useEffect(() => {
     getLotes().then(setLotes).catch(() => {}).finally(() => setLoading(false))
+    getEspecies().then(setEspecies).catch(() => {})
   }, [])
+
+  useEffect(() => {
+    const esp = especies.find(e => e.nombreComun === especieWatch)
+    setEspecieSeleccionada(esp || null)
+  }, [especieWatch, especies])
 
   const filtered = lotes.filter(l => {
     const searchText = search.toLowerCase()
@@ -35,6 +69,27 @@ export default function LotesPage() {
 
   const badgeFrio = (v: EstadoCadenaFrio) => <Badge variant={v === 'OK' ? 'success' : v === 'ALERTA' ? 'warning' : 'danger'}>{v}</Badge>
   const badgeSanipes = (v: EstadoSanipes) => <Badge variant={v === 'APTO_EXPORTACION' ? 'info' : v === 'APROBADO' ? 'success' : v === 'RECHAZADO' ? 'danger' : 'gray'}>{v}</Badge>
+
+  const abrirModal = () => {
+    reset({ fechaRecepcion: new Date().toISOString().slice(0, 16) })
+    setShowModal(true)
+  }
+
+  const onSubmit = async (data: FormData) => {
+    if (especieSeleccionada?.enVeda) {
+      toast.error(`La especie ${data.especie} está en veda. No se puede crear el lote.`)
+      return
+    }
+    try {
+      await crearLote({ ...data, fechaRecepcion: data.fechaRecepcion } as any)
+      toast.success('Lote creado exitosamente')
+      setShowModal(false)
+      setLoading(true)
+      getLotes().then(setLotes).catch(() => {}).finally(() => setLoading(false))
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Error al crear lote')
+    }
+  }
 
   if (loading) return <Skeleton className="h-96 rounded-lg" />
 
@@ -61,7 +116,7 @@ export default function LotesPage() {
           </Select>
         </div>
         {usuario && (usuario.rol === 'ADMIN' || usuario.rol === 'LOGISTICA') && (
-          <Link href="/dashboard/lotes/nuevo"><Button><Plus className="h-4 w-4 mr-1" /> Nuevo Lote</Button></Link>
+          <Button onClick={abrirModal}><Plus className="h-4 w-4 mr-1" /> Nuevo Lote</Button>
         )}
       </div>
 
@@ -104,6 +159,79 @@ export default function LotesPage() {
           )}
         </TableBody>
       </Table>
+
+      {showModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" onClick={() => setShowModal(false)}>
+          <div className="bg-white rounded-lg w-full max-w-2xl shadow-xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-6 border-b">
+              <h2 className="text-lg font-semibold">Nuevo Lote</h2>
+              <Button variant="ghost" size="sm" onClick={() => setShowModal(false)}><X className="h-4 w-4" /></Button>
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
+              <div>
+                <label className="text-sm font-medium">Código de Lote</label>
+                <Input {...register('codigoLote')} placeholder="LOT-2026-010" />
+                {errors.codigoLote && <p className="text-xs text-danger mt-1">{errors.codigoLote.message}</p>}
+              </div>
+              <div>
+                <label className="text-sm font-medium">Especie</label>
+                <Select {...register('especie')}>
+                  <option value="">Seleccionar especie...</option>
+                  {especies.map(e => (
+                    <option key={e.id} value={e.nombreComun} disabled={e.enVeda}>
+                      {e.nombreComun} {e.enVeda ? '(EN VEDA)' : `(${e.codigoSanipes})`}
+                    </option>
+                  ))}
+                </Select>
+                {errors.especie && <p className="text-xs text-danger mt-1">{errors.especie.message}</p>}
+                {especieSeleccionada?.enVeda && <p className="text-xs text-danger mt-1">Esta especie está en veda — no se permite el registro de nuevos lotes</p>}
+              </div>
+              <div>
+                <label className="text-sm font-medium">Embarcación</label>
+                <Input {...register('nombreEmbarcacion')} placeholder="Nombre de la embarcación" />
+                {errors.nombreEmbarcacion && <p className="text-xs text-danger mt-1">{errors.nombreEmbarcacion.message}</p>}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium">Matrícula de embarcación</label>
+                  <Input {...register('matriculaEmbarcacion')} placeholder="Ej: PIS-0142" />
+                  {errors.matriculaEmbarcacion && <p className="text-xs text-danger mt-1">{errors.matriculaEmbarcacion.message}</p>}
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Capitán</label>
+                  <Input {...register('capitanEmbarcacion')} placeholder="Nombre del capitán" />
+                  {errors.capitanEmbarcacion && <p className="text-xs text-danger mt-1">{errors.capitanEmbarcacion.message}</p>}
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium">Razón social de la empresa</label>
+                  <Input {...register('empresaRazonSocial')} placeholder="Pesquera Ejemplo S.A.C." />
+                  {errors.empresaRazonSocial && <p className="text-xs text-danger mt-1">{errors.empresaRazonSocial.message}</p>}
+                </div>
+                <div>
+                  <label className="text-sm font-medium">RUC de la empresa</label>
+                  <Input {...register('empresaRuc')} placeholder="20512345678" />
+                  {errors.empresaRuc && <p className="text-xs text-danger mt-1">{errors.empresaRuc.message}</p>}
+                </div>
+              </div>
+              <div>
+                <label className="text-sm font-medium">Peso (kg)</label>
+                <Input type="number" step="0.1" {...register('pesoKg')} placeholder="Ej: 1500" />
+                {errors.pesoKg && <p className="text-xs text-danger mt-1">{errors.pesoKg.message}</p>}
+              </div>
+              <div>
+                <label className="text-sm font-medium">Fecha de Recepción</label>
+                <Input type="datetime-local" {...register('fechaRecepcion')} />
+                {errors.fechaRecepcion && <p className="text-xs text-danger mt-1">{errors.fechaRecepcion.message}</p>}
+              </div>
+              <Button type="submit" className="w-full bg-slate-800 hover:bg-slate-950 text-white font-semibold rounded-md" disabled={isSubmitting}>
+                {isSubmitting ? 'Creando...' : 'Crear Lote'}
+              </Button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
