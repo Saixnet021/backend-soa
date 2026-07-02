@@ -184,6 +184,31 @@ export default function ArquitecturaSOAPage() {
     }
   };
 
+  const formatXml = (xml: string): string => {
+    try {
+      const doc = new DOMParser().parseFromString(xml, 'text/xml');
+      const errorNode = doc.querySelector('parsererror');
+      if (errorNode) return xml;
+      const serializer = new XMLSerializer();
+      let formatted = serializer.serializeToString(doc);
+      let indent = 0;
+      const lines = formatted
+        .replace(/>\s*</g, '>\n<')
+        .split('\n');
+      const result = lines.map(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return '';
+        if (trimmed.startsWith('</')) indent = Math.max(0, indent - 1);
+        const pad = '  '.repeat(indent);
+        if (trimmed.startsWith('<') && !trimmed.startsWith('</') && !trimmed.startsWith('<?') && !trimmed.endsWith('/>') && !trimmed.includes('xmlns:')) indent++;
+        return pad + trimmed;
+      }).filter(l => l.trim()).join('\n');
+      return result;
+    } catch {
+      return xml;
+    }
+  };
+
   const sendSoapRequest = async () => {
     setSoapLoading(true);
     setSoapResponse('');
@@ -197,7 +222,7 @@ export default function ArquitecturaSOAPage() {
         body: soapRequest
       });
       const text = await response.text();
-      setSoapResponse(text);
+      setSoapResponse(formatXml(text));
     } catch (error) {
       setSoapResponse('Error de conexion. Verifique que el servicio SOAP este activo.');
     } finally {
