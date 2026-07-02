@@ -68,3 +68,9 @@ DataInitializer: Sincronizacion de usuarios completada. Total usuarios en DB = 4
 2026-07-02T11:53:38.951-05:00  INFO 33860 --- [nio-8090-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-07-02T11:53:38.953-05:00  INFO 33860 --- [nio-8090-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
 Hibernate: select u1_0.id,u1_0.password,u1_0.rol,u1_0.username from usuario u1_0 where u1_0.username=?
+Hibernate: select u1_0.id,u1_0.password,u1_0.rol,u1_0.username from usuario u1_0 where u1_0.username=?
+2026-07-02T11:58:32.211-05:00  WARN 33860 --- [io-8090-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingRequestHeaderException: Required request header 'Authorization' for method parameter type String is not present]
+2026-07-02T11:58:32.228-05:00  WARN 33860 --- [nio-8090-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingRequestHeaderException: Required request header 'Authorization' for method parameter type String is not present]
+Hibernate: select u1_0.id,u1_0.password,u1_0.rol,u1_0.username from usuario u1_0 where u1_0.username=?
+Hibernate: select u1_0.id,u1_0.password,u1_0.rol,u1_0.username from usuario u1_0 where u1_0.username=?
+Hibernate: select u1_0.id,u1_0.password,u1_0.rol,u1_0.username from usuario u1_0 where u1_0.username=?
