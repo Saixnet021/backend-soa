@@ -1,4 +1,4 @@
-package com.exporsan.lote.soap;
+package com.exporsan.lotes.soap;
 
 import jakarta.xml.bind.annotation.*;
 import java.math.BigDecimal;

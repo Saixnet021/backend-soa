@@ -1,7 +1,7 @@
-package com.exporsan.lote.soap;
+package com.exporsan.lotes.soap;
 
-import com.exporsan.lote.domain.Embarcacion;
-import com.exporsan.lote.repository.EmbarcacionRepository;
+import com.exporsan.lotes.model.Embarcacion;
+import com.exporsan.lotes.repository.EmbarcacionRepository;
 import org.springframework.ws.server.endpoint.annotation.*;
 import org.springframework.ws.soap.server.endpoint.annotation.SoapAction;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
-package com.exporsan.lote.repository;
+package com.exporsan.lotes.repository;
 
-import com.exporsan.lote.domain.Embarcacion;
+import com.exporsan.lotes.model.Embarcacion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;

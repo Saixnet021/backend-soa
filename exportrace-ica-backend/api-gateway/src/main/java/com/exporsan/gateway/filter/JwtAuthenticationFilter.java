@@ -30,7 +30,8 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             path.startsWith("/api/v1/auth/login") ||
             path.startsWith("/api/v1/auth/test") ||
             path.startsWith("/gateway/status") ||
-            path.startsWith("/api/v1/registry")) {
+            path.startsWith("/api/v1/registry") ||
+            path.startsWith("/ws")) {
             return chain.filter(exchange);
         }
 
