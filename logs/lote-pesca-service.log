@@ -116,3 +116,8 @@ Hibernate: select se1_0.id,se1_0.category,se1_0.description,se1_0.last_heartbeat
 Hibernate: select se1_0.id,se1_0.category,se1_0.description,se1_0.last_heartbeat,se1_0.registered_at,se1_0.service_name,se1_0.service_url,se1_0.status,se1_0.version from service_entries se1_0
 Hibernate: select se1_0.id,se1_0.category,se1_0.description,se1_0.last_heartbeat,se1_0.registered_at,se1_0.service_name,se1_0.service_url,se1_0.status,se1_0.version from service_entries se1_0
 Hibernate: select se1_0.id,se1_0.category,se1_0.description,se1_0.last_heartbeat,se1_0.registered_at,se1_0.service_name,se1_0.service_url,se1_0.status,se1_0.version from service_entries se1_0
+Hibernate: select se1_0.id,se1_0.category,se1_0.description,se1_0.last_heartbeat,se1_0.registered_at,se1_0.service_name,se1_0.service_url,se1_0.status,se1_0.version from service_entries se1_0
+Hibernate: select se1_0.id,se1_0.category,se1_0.description,se1_0.last_heartbeat,se1_0.registered_at,se1_0.service_name,se1_0.service_url,se1_0.status,se1_0.version from service_entries se1_0
+Hibernate: select se1_0.id,se1_0.category,se1_0.description,se1_0.last_heartbeat,se1_0.registered_at,se1_0.service_name,se1_0.service_url,se1_0.status,se1_0.version from service_entries se1_0
+Hibernate: select se1_0.id,se1_0.category,se1_0.description,se1_0.last_heartbeat,se1_0.registered_at,se1_0.service_name,se1_0.service_url,se1_0.status,se1_0.version from service_entries se1_0
+Hibernate: select se1_0.id,se1_0.category,se1_0.description,se1_0.last_heartbeat,se1_0.registered_at,se1_0.service_name,se1_0.service_url,se1_0.status,se1_0.version from service_entries se1_0
