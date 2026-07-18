@@ -77,7 +77,7 @@ echo  OK: MySQL conectado en localhost:3306
 :: ===== CREAR BASES DE DATOS MYSQL =====
 echo.
 echo [6/7] Verificando bases de datos MySQL...
-"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -uroot -proot -h localhost -e "CREATE DATABASE IF NOT EXISTS exporsan_auth; CREATE DATABASE IF NOT EXISTS exporsan_lotes; CREATE DATABASE IF NOT EXISTS exporsan_calidad; CREATE DATABASE IF NOT EXISTS exporsan_certificacion; CREATE DATABASE IF NOT EXISTS service_registry;" >nul 2>&1
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -uroot -proot -h localhost -e "CREATE DATABASE IF NOT EXISTS exporsan_lotes;" >nul 2>&1
 echo  OK: Bases de datos verificadas/creadas
 
 :: ===== VERIFICAR / COMPILAR BACKEND =====
@@ -85,7 +85,7 @@ echo.
 echo [7/7] Verificando compilacion de servicios Spring Boot...
 
 set "NEED_BUILD=0"
-for %%s in (auth-service lote-pesca-service monitoreo-cold-service certificacion-service service-registry api-gateway) do (
+for %%s in (lote-pesca-service) do (
   set "FOUND_JAR="
   for %%f in ("%BACKEND_ROOT%\%%s\target\*.jar") do (
     set "FOUND_JAR=%%f"
@@ -116,27 +116,17 @@ echo.
 echo Iniciando servicios backend en segundo plano...
 echo.
 
-call :start_service "auth-service"           8090
-call :start_service "lote-pesca-service"     8081
-call :start_service "monitoreo-cold-service" 8082
-call :start_service "certificacion-service"  8083
-call :start_service "service-registry"       8084
-call :start_service "api-gateway"            8080
+call :start_service "lote-pesca-service"     8080
 
 :: ===== ESPERAR ARRANQUE =====
 echo.
-echo Esperando 30 segundos para que los servicios arranquen...
-timeout /t 30 /nobreak >nul
+echo Esperando 10 segundos para que el backend monolitico arranque...
+ping 127.0.0.1 -n 11 >nul
 
 :: ===== VERIFICAR SERVICIOS =====
 echo.
 echo Verificando estado de los servicios...
-call :check_service "auth-service"           8090
-call :check_service "lote-pesca-service"     8081
-call :check_service "monitoreo-cold-service" 8082
-call :check_service "certificacion-service"  8083
-call :check_service "service-registry"       8084
-call :check_service "api-gateway"            8080
+call :check_service "lote-pesca-service"     8080
 
 :: ===== INSTALAR / VERIFICAR FRONTEND =====
 echo.
@@ -160,10 +150,10 @@ if not exist "%FRONTEND_ROOT%\node_modules" (
 echo.
 echo Iniciando frontend (Next.js)...
 cd /d "%FRONTEND_ROOT%"
-start "ExporTrace Frontend" /B npm run dev -- -p 3000 > "%LOGS_DIR%\frontend.log" 2>&1
+start "ExporTrace Frontend" /B cmd /c npm run dev -- -p 3000 > "%LOGS_DIR%\frontend-dev.log" 2>&1
 cd /d "%PROJECT_ROOT%"
 
-timeout /t 5 /nobreak >nul
+ping 127.0.0.1 -n 6 >nul
 echo  OK: Frontend iniciado
 
 :: ===== INFORMACION FINAL =====
@@ -174,12 +164,7 @@ echo =================================================================
 echo.
 echo    URLs disponibles:
 echo      Frontend:               http://localhost:3000
-echo      API Gateway:            http://localhost:8080
-echo      Auth Service:           http://localhost:8090
-echo      Lote Pesca Service:     http://localhost:8081
-echo      Monitoreo Cold Service: http://localhost:8082
-echo      Certificacion Service:  http://localhost:8083
-echo      Service Registry:       http://localhost:8084
+echo      Backend Monolitico:     http://localhost:8080
 echo.
 echo    Credenciales de prueba:
 echo      admin      / admin123      (ADMIN)
@@ -188,7 +173,7 @@ echo      logistica  / logistica123  (LOGISTICA)
 echo.
 echo    Logs en:
 echo      Backend:   %LOGS_DIR%\
-echo      Frontend:  %LOGS_DIR%\frontend.log
+echo      Frontend:  %LOGS_DIR%\frontend-dev.log
 echo.
 echo    Para detener todos los servicios: stop.bat
 echo =================================================================

@@ -15,6 +15,7 @@ const pageTitles: Record<string, string> = {
   '/dashboard/calidad': 'Calidad',
   '/dashboard/calidad/registrar': 'Registrar Temperatura',
   '/dashboard/certificaciones': 'Certificaciones',
+  '/dashboard/trazabilidad': 'Trazabilidad Planta',
   '/dashboard/especies': 'Especies',
   '/dashboard/usuarios': 'Usuarios',
   '/dashboard/arquitectura': 'Arquitectura SOA',

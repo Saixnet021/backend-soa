@@ -48,3 +48,8 @@ export function formatShortDateTime(dateStr?: string): string {
   const min = String(d.getMinutes()).padStart(2, '0')
   return `${dia}/${mes} ${hora}:${min}`
 }
+
+export function formatEstado(estado?: string | null): string {
+  if (!estado) return ''
+  return estado.replace(/_/g, ' ')
+}

@@ -8,26 +8,22 @@
 
  :: Spring Boot ::                (v3.4.6)
 
-2026-07-02T15:27:50.203-05:00  INFO 34436 --- [api-gateway] [           main] c.e.gateway.ApiGatewayApplication        : Starting ApiGatewayApplication v1.0.0-SNAPSHOT using Java 26.0.1 with PID 34436 (C:\Users\Lenovo\Documents\ksyan\ksyan\exportrace-ica-backend\api-gateway\target\api-gateway-1.0.0-SNAPSHOT.jar started by Lenovo in C:\Users\Lenovo\Documents\ksyan\ksyan)
-2026-07-02T15:27:50.208-05:00  INFO 34436 --- [api-gateway] [           main] c.e.gateway.ApiGatewayApplication        : No active profile set, falling back to 1 default profile: "default"
-2026-07-02T15:27:54.459-05:00  INFO 34436 --- [api-gateway] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=6dd04c7a-b4bb-3327-8f6d-c09816ba1e0e
-2026-07-02T15:27:57.713-05:00  INFO 34436 --- [api-gateway] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
-2026-07-02T15:27:58.548-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
-2026-07-02T15:27:58.548-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
-2026-07-02T15:27:58.549-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
-2026-07-02T15:27:58.549-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
-2026-07-02T15:27:58.549-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
-2026-07-02T15:27:58.549-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
-2026-07-02T15:27:58.550-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
-2026-07-02T15:27:58.550-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
-2026-07-02T15:27:58.550-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
-2026-07-02T15:27:58.551-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
-2026-07-02T15:27:58.551-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
-2026-07-02T15:27:58.551-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
-2026-07-02T15:27:58.551-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
-2026-07-02T15:27:58.551-05:00  INFO 34436 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
-2026-07-02T15:28:00.821-05:00  INFO 34436 --- [api-gateway] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
-2026-07-02T15:28:01.873-05:00  INFO 34436 --- [api-gateway] [           main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8080 (http)
-2026-07-02T15:28:03.192-05:00  INFO 34436 --- [api-gateway] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
-2026-07-02T15:28:04.499-05:00  INFO 34436 --- [api-gateway] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
-2026-07-02T15:28:04.724-05:00  INFO 34436 --- [api-gateway] [           main] c.e.gateway.ApiGatewayApplication        : Started ApiGatewayApplication in 16.742 seconds (process running for 17.742)
+2026-07-18T00:43:07.763-05:00  INFO 26564 --- [api-gateway] [           main] c.e.gateway.ApiGatewayApplication        : Starting ApiGatewayApplication v1.0.0-SNAPSHOT using Java 17.0.12 with PID 26564 (C:\Users\Anderson\Documents\SOA\backend-soa\exportrace-ica-backend\api-gateway\target\api-gateway-1.0.0-SNAPSHOT.jar started by Anderson in C:\Users\Anderson\Documents\SOA\backend-soa)
+2026-07-18T00:43:07.770-05:00  INFO 26564 --- [api-gateway] [           main] c.e.gateway.ApiGatewayApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-07-18T00:43:12.543-05:00  INFO 26564 --- [api-gateway] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=6dd04c7a-b4bb-3327-8f6d-c09816ba1e0e
+2026-07-18T00:43:15.812-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2026-07-18T00:43:15.813-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2026-07-18T00:43:15.813-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2026-07-18T00:43:15.813-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2026-07-18T00:43:15.813-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2026-07-18T00:43:15.813-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2026-07-18T00:43:15.813-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2026-07-18T00:43:15.813-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2026-07-18T00:43:15.815-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2026-07-18T00:43:15.815-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2026-07-18T00:43:15.815-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2026-07-18T00:43:15.815-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2026-07-18T00:43:15.815-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2026-07-18T00:43:15.815-05:00  INFO 26564 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2026-07-18T00:43:19.049-05:00  INFO 26564 --- [api-gateway] [           main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8080 (http)
+2026-07-18T00:43:21.203-05:00  INFO 26564 --- [api-gateway] [           main] c.e.gateway.ApiGatewayApplication        : Started ApiGatewayApplication in 16.195 seconds (process running for 18.478)

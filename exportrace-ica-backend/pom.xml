@@ -19,12 +19,7 @@
     <description>Suite SOA - Exportadora San Andres - ICA</description>
 
     <modules>
-        <module>auth-service</module>
         <module>lote-pesca-service</module>
-        <module>monitoreo-cold-service</module>
-        <module>certificacion-service</module>
-        <module>service-registry</module>
-        <module>api-gateway</module>
     </modules>
 
     <properties>

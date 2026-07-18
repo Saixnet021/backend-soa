@@ -32,7 +32,7 @@ const nextConfig = {
     return [
       {
         source: '/ws',
-        destination: process.env.SOAP_BACKEND_URL || 'http://localhost:8081/ws',
+        destination: process.env.SOAP_BACKEND_URL || 'http://localhost:8080/ws',
       },
     ]
   },

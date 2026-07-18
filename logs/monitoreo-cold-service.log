@@ -1,0 +1,43 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.6)
+
+2026-07-18T00:43:05.994-05:00  INFO 28388 --- [           main] c.e.c.MonitoreoColdServiceApplication    : Starting MonitoreoColdServiceApplication v1.0.0-SNAPSHOT using Java 17.0.12 with PID 28388 (C:\Users\Anderson\Documents\SOA\backend-soa\exportrace-ica-backend\monitoreo-cold-service\target\monitoreo-cold-service-1.0.0-SNAPSHOT.jar started by Anderson in C:\Users\Anderson\Documents\SOA\backend-soa)
+2026-07-18T00:43:06.002-05:00  INFO 28388 --- [           main] c.e.c.MonitoreoColdServiceApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-07-18T00:43:09.044-05:00  INFO 28388 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-18T00:43:09.197-05:00  INFO 28388 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 118 ms. Found 2 JPA repository interfaces.
+2026-07-18T00:43:11.435-05:00  INFO 28388 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2026-07-18T00:43:11.472-05:00  INFO 28388 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-18T00:43:11.472-05:00  INFO 28388 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2026-07-18T00:43:11.648-05:00  INFO 28388 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-07-18T00:43:11.653-05:00  INFO 28388 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5316 ms
+2026-07-18T00:43:12.591-05:00  INFO 28388 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-07-18T00:43:12.742-05:00  INFO 28388 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.15.Final
+2026-07-18T00:43:12.863-05:00  INFO 28388 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-07-18T00:43:14.125-05:00  INFO 28388 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-18T00:43:14.251-05:00  INFO 28388 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-18T00:43:14.795-05:00  INFO 28388 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@65a48cab
+2026-07-18T00:43:14.798-05:00  INFO 28388 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-18T00:43:14.878-05:00  WARN 28388 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-18T00:43:14.916-05:00  INFO 28388 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.46
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-18T00:43:16.368-05:00  INFO 28388 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-18T00:43:16.447-05:00  INFO 28388 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-18T00:43:18.235-05:00  INFO 28388 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-07-18T00:43:20.562-05:00  INFO 28388 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path '/'
+2026-07-18T00:43:20.612-05:00  INFO 28388 --- [           main] c.e.c.MonitoreoColdServiceApplication    : Started MonitoreoColdServiceApplication in 16.55 seconds (process running for 17.946)
+2026-07-18T00:43:33.797-05:00  INFO 28388 --- [nio-8082-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-18T00:43:33.799-05:00  INFO 28388 --- [nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-18T00:43:33.800-05:00  INFO 28388 --- [nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

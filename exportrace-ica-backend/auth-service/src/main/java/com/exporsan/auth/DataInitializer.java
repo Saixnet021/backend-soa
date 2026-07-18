@@ -22,7 +22,9 @@ public class DataInitializer implements CommandLineRunner {
         System.out.println("DataInitializer: Sincronizando usuarios por defecto...");
         
         upsertUsuario("admin", "admin123", "ADMIN");
-        upsertUsuario("calidad", "calidad123", "QA");
+        upsertUsuario("calidad", "calidad123", "CALIDAD");
+        upsertUsuario("recepcion", "recepcion123", "RECEPCION");
+        upsertUsuario("produccion", "produccion123", "PRODUCCION");
         upsertUsuario("logistica", "logistica123", "LOGISTICA");
         upsertUsuario("root", "root", "ADMIN");
         
