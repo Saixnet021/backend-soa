@@ -4,9 +4,10 @@ import com.exporsan.audit.Auditable;
 import com.exporsan.certificacion.dto.*;
 import com.exporsan.certificacion.model.TramiteSanipes;
 import com.exporsan.certificacion.repository.TramiteSanipesRepository;
-import org.springframework.beans.factory.annotation.Value;
+import com.exporsan.lotes.service.LotePescaService;
+import com.exporsan.lotes.model.LotePesca;
+import com.exporsan.calidad.service.AuditoriaCalidadService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,54 +21,43 @@ import java.util.stream.Collectors;
 public class CertificacionService {
 
     private final TramiteSanipesRepository tramiteSanipesRepository;
-    private final RestTemplate restTemplate;
+    private final LotePescaService lotePescaService;
+    private final AuditoriaCalidadService auditoriaCalidadService;
 
-    @Value("${lote.service.url}")
-    private String loteServiceUrl;
-
-    @Value("${calidad.service.url}")
-    private String calidadServiceUrl;
-
-    public CertificacionService(TramiteSanipesRepository tramiteSanipesRepository, RestTemplate restTemplate) {
+    public CertificacionService(TramiteSanipesRepository tramiteSanipesRepository,
+                                LotePescaService lotePescaService,
+                                AuditoriaCalidadService auditoriaCalidadService) {
         this.tramiteSanipesRepository = tramiteSanipesRepository;
-        this.restTemplate = restTemplate;
+        this.lotePescaService = lotePescaService;
+        this.auditoriaCalidadService = auditoriaCalidadService;
     }
 
     @Auditable(accion = "SOLICITAR_CERTIFICADO", entidad = "TramiteSanipes")
     public TramiteSanipesDTO orquestarTramite(Long idLote) {
-        LoteDTO lote;
+        LotePesca lotePesca;
         try {
-            lote = restTemplate.getForObject(
-                    loteServiceUrl + "/api/v1/adaptadores/sip/lotes/" + idLote,
-                    LoteDTO.class
-            );
+            lotePesca = lotePescaService.obtenerPorId(idLote);
         } catch (Exception ex) {
             throw new IllegalStateException("No se pudo obtener la información del lote. Verifique que el servicio de lotes esté activo.");
         }
 
-        ResumenFrioDTO resumenFrio;
+        com.exporsan.calidad.dto.ResumenFrioDTO resumenFrioCalidad;
         try {
-            resumenFrio = restTemplate.getForObject(
-                    calidadServiceUrl + "/api/v1/calidad/temperaturas/lote/" + idLote + "/resumen",
-                    ResumenFrioDTO.class
-            );
-        } catch (org.springframework.web.client.HttpStatusCodeException ex) {
-            if (ex.getStatusCode().value() == 404) {
-                throw new IllegalStateException("No se puede solicitar el certificado porque no se han registrado mediciones de temperatura para este lote.");
-            }
-            throw new IllegalStateException("Error al verificar la cadena de frío del lote: " + ex.getResponseBodyAsString());
+            resumenFrioCalidad = auditoriaCalidadService.obtenerResumenFrio(idLote);
+        } catch (jakarta.persistence.EntityNotFoundException ex) {
+            throw new IllegalStateException("No se puede solicitar el certificado porque no se han registrado mediciones de temperatura para este lote.");
         } catch (Exception ex) {
             throw new IllegalStateException("El servicio de monitoreo de frío no se encuentra disponible.");
         }
 
-        if (resumenFrio == null || !"OK".equals(resumenFrio.getEstadoCadenaFrio())) {
+        if (resumenFrioCalidad == null || !"OK".equals(resumenFrioCalidad.getEstadoCadenaFrio())) {
             throw new IllegalStateException("La cadena de frío no está en estado OK para el lote " + idLote);
         }
 
-        if (lote == null || lote.getPesoKg() == null || lote.getPesoKg() <= 0) {
+        if (lotePesca == null || lotePesca.getPesoKg() == null || lotePesca.getPesoKg() <= 0) {
             throw new IllegalStateException("El peso del lote " + idLote + " es inválido");
         }
-//... (keep original rest of orquestarTramite)
+
         String numeroCertificado = "CERT-" + Year.now().getValue() + "-" + idLote + "-" +
                 String.format("%04d", ThreadLocalRandom.current().nextInt(1000, 9999));
 
@@ -80,10 +70,7 @@ public class CertificacionService {
 
         tramiteSanipesRepository.save(tramite);
 
-        restTemplate.put(
-                loteServiceUrl + "/api/v1/adaptadores/sip/lotes/" + idLote + "/estado-sanipes?estadoSanipes=APROBADO",
-                null
-        );
+        lotePescaService.actualizarEstadoSanipes(idLote, "APROBADO");
 
         TramiteSanipesDTO dto = new TramiteSanipesDTO();
         dto.setIdTramite(tramite.getId());
@@ -98,20 +85,16 @@ public class CertificacionService {
     public ExpedienteDTO obtenerExpediente(Long idLote) {
         LoteDTO lote = null;
         try {
-            lote = restTemplate.getForObject(
-                    loteServiceUrl + "/api/v1/adaptadores/sip/lotes/" + idLote,
-                    LoteDTO.class
-            );
+            LotePesca lp = lotePescaService.obtenerPorId(idLote);
+            lote = mapToLoteDTO(lp);
         } catch (Exception ex) {
             // No bloquear
         }
 
         ResumenFrioDTO resumenFrio = null;
         try {
-            resumenFrio = restTemplate.getForObject(
-                    calidadServiceUrl + "/api/v1/calidad/temperaturas/lote/" + idLote + "/resumen",
-                    ResumenFrioDTO.class
-            );
+            com.exporsan.calidad.dto.ResumenFrioDTO rfc = auditoriaCalidadService.obtenerResumenFrio(idLote);
+            resumenFrio = mapToResumenFrioDTO(rfc);
         } catch (Exception ex) {
             // No bloquear
         }
@@ -171,5 +154,39 @@ public class CertificacionService {
                         t.getIdLote()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    private LoteDTO mapToLoteDTO(LotePesca lote) {
+        if (lote == null) return null;
+        LoteDTO dto = new LoteDTO();
+        dto.setId(lote.getId());
+        dto.setCodigoLote(lote.getCodigoLote());
+        dto.setEspecie(lote.getEspecie());
+        dto.setNombreEmbarcacion(lote.getNombreEmbarcacion());
+        dto.setMatriculaEmbarcacion(lote.getMatriculaEmbarcacion());
+        dto.setCapitanEmbarcacion(lote.getCapitanEmbarcacion());
+        dto.setEmpresaRazonSocial(lote.getEmpresaRazonSocial());
+        dto.setEmpresaRuc(lote.getEmpresaRuc());
+        dto.setPesoKg(lote.getPesoKg());
+        dto.setEstadoSanipes(lote.getEstadoSanipes());
+        dto.setEstadoCadenaFrio(lote.getEstadoCadenaFrio());
+        if (lote.getFechaRecepcion() != null) {
+            dto.setFechaRecepcion(lote.getFechaRecepcion().toString());
+        }
+        if (lote.getFechaSalidaLote() != null) {
+            dto.setFechaSalidaLote(lote.getFechaSalidaLote().toString());
+        }
+        return dto;
+    }
+
+    private ResumenFrioDTO mapToResumenFrioDTO(com.exporsan.calidad.dto.ResumenFrioDTO resumen) {
+        if (resumen == null) return null;
+        ResumenFrioDTO dto = new ResumenFrioDTO();
+        dto.setTempMin(resumen.getTempMin());
+        dto.setTempMax(resumen.getTempMax());
+        dto.setTempPromedio(resumen.getTempPromedio());
+        dto.setHayAlerta(resumen.isHayAlerta());
+        dto.setEstadoCadenaFrio(resumen.getEstadoCadenaFrio());
+        return dto;
     }
 }

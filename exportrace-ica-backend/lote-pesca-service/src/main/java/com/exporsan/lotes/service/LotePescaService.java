@@ -13,6 +13,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import com.exporsan.certificacion.service.BpmService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +29,7 @@ public class LotePescaService {
     private final ExternalValidationService externalValidationService;
     private final RestTemplate restTemplate;
     private final RucService rucService;
+    private final BpmService bpmService;
 
     @Value("${certificacion.service.url:http://localhost:8083}")
     private String certificacionServiceUrl;
@@ -38,7 +40,8 @@ public class LotePescaService {
                             EmpresaRepository empresaRepository,
                             ExternalValidationService externalValidationService,
                             RestTemplate restTemplate,
-                            RucService rucService) {
+                            RucService rucService,
+                            BpmService bpmService) {
         this.lotePescaRepository = lotePescaRepository;
         this.especieRepository = especieRepository;
         this.embarcacionRepository = embarcacionRepository;
@@ -46,6 +49,7 @@ public class LotePescaService {
         this.externalValidationService = externalValidationService;
         this.restTemplate = restTemplate;
         this.rucService = rucService;
+        this.bpmService = bpmService;
     }
 
     public List<LotePesca> listarTodos() {
@@ -115,11 +119,7 @@ public class LotePescaService {
         LotePesca saved = lotePescaRepository.save(lote);
 
         try {
-            restTemplate.postForEntity(
-                certificacionServiceUrl + "/api/v1/bpm/procesos/lote/" + id + "/avanzar",
-                Map.of("etapa", "LISTO_PARA_DESPACHO", "observacion", "Fecha salida: " + fechaSalida.toString()),
-                Void.class
-            );
+            bpmService.avanzarProcesoPorLote(id, "LISTO_PARA_DESPACHO", "LISTO_PARA_DESPACHO", "Fecha salida: " + fechaSalida.toString(), 1L);
         } catch (Exception e) {
             // No bloquear si el BPM no responde
         }

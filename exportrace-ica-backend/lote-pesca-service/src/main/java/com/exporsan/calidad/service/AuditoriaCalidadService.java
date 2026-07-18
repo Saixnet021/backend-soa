@@ -9,7 +9,8 @@ import com.exporsan.calidad.repository.ReglaCalidadRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import com.exporsan.lotes.service.LotePescaService;
+import com.exporsan.lotes.model.LotePesca;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,21 +21,20 @@ public class AuditoriaCalidadService {
 
     private final AuditoriaCalidadRepository auditoriaCalidadRepository;
     private final ReglaCalidadRepository reglaCalidadRepository;
-    private final RestTemplate restTemplate;
+    private final LotePescaService lotePescaService;
 
     @Value("${lote.service.url}")
     private String loteServiceUrl;
 
     public AuditoriaCalidadService(AuditoriaCalidadRepository auditoriaCalidadRepository,
                                    ReglaCalidadRepository reglaCalidadRepository,
-                                   RestTemplate restTemplate) {
+                                   LotePescaService lotePescaService) {
         this.auditoriaCalidadRepository = auditoriaCalidadRepository;
         this.reglaCalidadRepository = reglaCalidadRepository;
-        this.restTemplate = restTemplate;
+        this.lotePescaService = lotePescaService;
     }
 
     @Auditable(accion = "REGISTRAR_TEMPERATURA", entidad = "AuditoriaCalidad")
-    @SuppressWarnings("unchecked")
     public AuditoriaCalidad registrarTemperatura(AuditoriaCalidad auditoria) {
         if (auditoria.getIdLote() == null) {
             throw new IllegalStateException("idLote es obligatorio");
@@ -46,12 +46,9 @@ public class AuditoriaCalidadService {
 
         String codigoEspecie = null;
         try {
-            Map<String, Object> lote = restTemplate.getForObject(
-                    loteServiceUrl + "/api/v1/adaptadores/sip/lotes/" + auditoria.getIdLote(),
-                    Map.class
-            );
+            LotePesca lote = lotePescaService.obtenerPorId(auditoria.getIdLote());
             if (lote != null) {
-                codigoEspecie = (String) lote.get("especie");
+                codigoEspecie = lote.getEspecie();
             }
         } catch (Exception e) {
             // Continuar sin validar lote si el servicio no esta disponible
@@ -72,10 +69,7 @@ public class AuditoriaCalidadService {
                     estado = "OK";
                 }
                 try {
-                    restTemplate.put(
-                            loteServiceUrl + "/api/v1/adaptadores/sip/lotes/" + auditoria.getIdLote() + "/estado-cadena-frio?estado=" + estado,
-                            null
-                    );
+                    lotePescaService.actualizarEstadoCadenaFrio(auditoria.getIdLote(), estado);
                 } catch (Exception e) {
                     // Ignorar si lote-service no esta disponible
                 }
@@ -93,7 +87,6 @@ public class AuditoriaCalidadService {
         return auditoriaCalidadRepository.findAll();
     }
 
-    @SuppressWarnings("unchecked")
     public ResumenFrioDTO obtenerResumenFrio(Long idLote) {
         List<AuditoriaCalidad> auditorias = auditoriaCalidadRepository.findByIdLoteOrderByTimestampMedicionDesc(idLote);
 
@@ -114,16 +107,18 @@ public class AuditoriaCalidadService {
 
         double tempPromedio = suma / auditorias.size();
 
-        Map<String, Object> lote = restTemplate.getForObject(
-                loteServiceUrl + "/api/v1/adaptadores/sip/lotes/" + idLote,
-                Map.class
-        );
+        LotePesca lote = null;
+        try {
+            lote = lotePescaService.obtenerPorId(idLote);
+        } catch (Exception e) {
+            // Continuar sin lote
+        }
 
         boolean hayAlerta = false;
         String estadoCadenaFrio = "OK";
 
         if (lote != null) {
-            String codigoEspecie = (String) lote.get("especie");
+            String codigoEspecie = lote.getEspecie();
             ReglaCalidad regla = reglaCalidadRepository.findByCodigoEspecie(codigoEspecie).orElse(null);
 
             if (regla != null) {
