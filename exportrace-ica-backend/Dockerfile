@@ -21,4 +21,4 @@ COPY --from=build /app/lote-pesca-service/target/lote-pesca-service-1.0.0-SNAPSH
 # Expose target port (Render will bind to $PORT dynamically)
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-Dserver.port=${PORT:8080}", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Dserver.port=${PORT:8080}", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
